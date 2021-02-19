@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/home/views/index.dart';
-import 'package:laraman/modules/settings/controllers/setting_controller.dart';
+import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/modules/settings/http/account_service.dart';
-import 'package:laraman/modules/settings/models/account.dart';
+import 'package:laraman/modules/account/models/account.dart';
 import 'package:laraman/modules/settings/views/edit_profile.dart';
 
 import 'package:laraman/partials/header.dart';
@@ -38,7 +38,7 @@ class LoginView extends StatelessWidget {
               fsUser.doc(user.uid).set(account.toJson());
               Get.to(EditProfile());
             } else {
-              Get.put(SettingsController()).account = await AccountService()
+              Get.find<AccountController>().account = await AccountService()
                   .getAccount(FirebaseAuth.instance.currentUser.uid);
               Get.to(HomeView());
             }
@@ -91,6 +91,9 @@ class LoginView extends StatelessWidget {
                       fsUser.doc(user.uid).set(account.toJson());
                       Get.to(EditProfile());
                     } else {
+                      Get.find<AccountController>().account =
+                          await AccountService().getAccount(
+                              FirebaseAuth.instance.currentUser.uid);
                       Get.to(HomeView());
                     }
                   } else {

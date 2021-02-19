@@ -1,16 +1,18 @@
 import 'package:get/get.dart';
-import 'package:laraman/modules/Auth/views/index.dart';
-import 'package:laraman/modules/Home/views/index.dart';
 import 'package:laraman/splash.dart';
+import 'package:laraman/modules/account/views/index.dart';
+import 'package:laraman/modules/home/views/index.dart';
+import 'package:laraman/modules/settings/views/index.dart';
+import 'package:laraman/modules/settings/views/edit_profile.dart';
 
-class Routes {
-  Routes._(); //this is to prevent anyone from instantiating this object
+class AppRoutes {
+  //Routes._(); //this is to prevent anyone from instantiating this object
   static final routes = [
     GetPage(name: '/', page: () => Splash()),
-    GetPage(name: '/signin', page: () => LoginView()),
+    GetPage(name: '/login', page: () => LoginView()),
     GetPage(name: '/home', page: () => HomeView()),
-    /*  GetPage(name: '/settings', page: () => SettingsUI()),
-    GetPage(name: '/reset-password', page: () => ResetPasswordUI()),
-    GetPage(name: '/update-profile', page: () => UpdateProfileUI()),*/
+    GetPage(name: '/settings', page: () => SettingsView()),
+    GetPage(name: '/edit-profile', page: () => EditProfile()),
+    /* GetPage(name: '/update-profile', page: () => UpdateProfileUI()),*/
   ];
 }

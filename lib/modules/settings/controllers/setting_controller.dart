@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:laraman/modules/settings/models/account.dart';
+import 'package:laraman/modules/account/models/account.dart';
 
 class SettingsController extends GetxController {
   Rx<Account> _accountModel = Account().obs;

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laraman/modules/settings/controllers/setting_controller.dart';
+import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/partials/header.dart';
 
 import 'edit_profile.dart';
@@ -40,10 +40,10 @@ class SettingsView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      GetX<SettingsController>(
-                          init: SettingsController(),
+                      GetX<AccountController>(
+                          init: AccountController(),
                           builder: (_) => Text(
-                                _.account.lastName.toString(),
+                                _.account.value.firstName.toString(),
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 19),
                               )),

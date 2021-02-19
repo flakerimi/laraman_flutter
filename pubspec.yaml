@@ -13,9 +13,12 @@ dependencies:
 
     cupertino_icons:
     get: any
+    get_storage: ^1.4.0
     firebase_core:
     firebase_auth:
     cloud_firestore:
+    qrscan: ^0.2.22
+
         
 dev_dependencies:
     flutter_test:

@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
-import 'package:laraman/modules/settings/models/account.dart';
+import 'package:laraman/modules/account/models/account.dart';
 
 class AccountService {
   getAccount(String uid) async {

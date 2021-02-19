@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/settings/views/index.dart';
 
+import '../modules/home/views/index.dart';
+
 class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
@@ -17,7 +19,10 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
             // Get.to(SettingsUI());
           },
         ),
-        title: Text('LARAMAN'),
+        title: GestureDetector(
+          onTap: () => Get.to(HomeView()),
+          child: Text('LARAMAN'),
+        ),
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
