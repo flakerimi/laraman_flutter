@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "328464156594",
+    "firebase_url": "https://laraman-backend.firebaseio.com",
+    "project_id": "laraman-backend",
+    "storage_bucket": "laraman-backend.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328464156594:android:6dd1c40cd26e1f1d9706ab",
+        "android_client_info": {
+          "package_name": "dev.laraman.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328464156594-7s1cp82qunr46l00qfqlc2922sfj0rmp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBqW_kKYqTrM2JXrT2khmSJLJ9O4bl8WAg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328464156594-7s1cp82qunr46l00qfqlc2922sfj0rmp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
