@@ -24,98 +24,106 @@ class Helper {
     return Uri.parse(qrcode);
   }
 
-  showPaymentBottomSheet(Merchant merchant, Transaction transaction) {
-    return Get.bottomSheet(Container(
-      width: 400,
-      height: 400,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(color: Colors.green, spreadRadius: 3),
-        ],
-      ),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              CachedNetworkImage(
-                imageUrl: merchant.logo,
-                height: 50,
-                width: 50,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    CircularProgressIndicator(value: downloadProgress.progress),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-
-              /* CircleAvatar(
-                radius: 50,
-                backgroundImage: NetworkImage(
-                  merchant.logo,
-                ),
-              ), */
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
+  showPaymentBottomSheet(
+      context, Merchant merchant, LaramanTransaction transaction) {
+    return showModalBottomSheet(
+        context: context,
+        isDismissible: false,
+        enableDrag: false,
+        builder: (context) {
+          return Container(
+            width: 400,
+            height: 400,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(30), topRight: Radius.circular(30)),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(color: Colors.green, spreadRadius: 3),
+              ],
+            ),
+            child: Column(
+              children: [
+                Row(
                   children: [
-                    Text(
-                      merchant.businessName,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
+                    CachedNetworkImage(
+                      imageUrl: merchant.logo,
+                      height: 50,
+                      width: 50,
+                      progressIndicatorBuilder:
+                          (context, url, downloadProgress) =>
+                              CircularProgressIndicator(
+                                  value: downloadProgress.progress),
+                      errorWidget: (context, url, error) => Icon(Icons.error),
                     ),
-                    Text(merchant.businessNumber),
+
+                    /* CircleAvatar(
+                      radius: 50,
+                      backgroundImage: NetworkImage(
+                        merchant.logo,
+                      ),
+                    ), */
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            merchant.businessName,
+                            style: TextStyle(
+                              fontSize: 20,
+                            ),
+                          ),
+                          Text(merchant.businessNumber),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-              )
-            ],
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Per pagese:'),
-              Text(
-                '${transaction.amount} €',
-                style: TextStyle(fontSize: 50),
-              ),
-              Text(
-                '${transaction.description}',
-                style: TextStyle(fontSize: 20),
-                textAlign: TextAlign.justify,
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-              )
-            ],
-          ),
-          VerticalDivider(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              VerticalDivider(),
-              ElevatedButton(
-                onPressed: () {
-                  makePayment(transaction.toJson());
-                },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-                  primary: Colors.greenAccent,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Per pagese:'),
+                    Text(
+                      '${transaction.amount} €',
+                      style: TextStyle(fontSize: 50),
+                    ),
+                    Text(
+                      '${transaction.description}',
+                      style: TextStyle(fontSize: 20),
+                      textAlign: TextAlign.justify,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
+                    )
+                  ],
                 ),
-                child: Text(
-                  "Confirm",
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
-            ],
-          )
-        ],
-      ),
-    ));
+                VerticalDivider(),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    VerticalDivider(),
+                    ElevatedButton(
+                      onPressed: () {
+                        makePayment(transaction.toJson());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsets.only(
+                            left: 30, right: 30, top: 10, bottom: 10),
+                        primary: Colors.greenAccent,
+                      ),
+                      child: Text(
+                        "Confirm",
+                        style: TextStyle(fontSize: 30),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          );
+        });
   }
 
   makePayment(payment) async {
-    print(payment);
     await TransactionController().addTransaction(payment);
     Get.back();
     Get.defaultDialog(

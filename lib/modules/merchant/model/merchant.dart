@@ -2,6 +2,7 @@ class Merchant {
   final businessName;
   final businessNumber;
   final businessType;
+  final tradeName;
   final address;
   final city;
   final country;
@@ -14,31 +15,34 @@ class Merchant {
   final qr;
   final logo;
   final status;
-  final tradeName;
-  Merchant({
-    this.businessName,
-    this.address,
-    this.businessNumber,
-    this.businessType,
-    this.city,
-    this.country,
-    this.dateCreated,
-    this.dateUpdated,
-    this.email,
-    this.fiscalNumber,
-    this.phoneNumber,
-    this.uniqueIdentificationNumber,
-    this.qr,
-    this.logo,
-    this.status,
-    this.tradeName,
-  });
+  final feeDouble;
+  final feeString;
+  Merchant(
+      {this.businessName,
+      this.address,
+      this.businessNumber,
+      this.businessType,
+      this.tradeName,
+      this.city,
+      this.country,
+      this.dateCreated,
+      this.dateUpdated,
+      this.email,
+      this.fiscalNumber,
+      this.phoneNumber,
+      this.uniqueIdentificationNumber,
+      this.qr,
+      this.logo,
+      this.status,
+      this.feeDouble,
+      this.feeString});
   factory Merchant.fromFirestore(Map data) {
     data = data ?? {};
     return Merchant(
       businessName: data['businessName'],
       businessNumber: data['businessNumber'],
       businessType: data['businessType'],
+      tradeName: data['tradeName'],
       address: data['address'],
       city: data['city'],
       country: data['country'],
@@ -51,7 +55,8 @@ class Merchant {
       qr: data['qr'],
       logo: data['logo'],
       status: data['status'],
-      tradeName: data['tradeName'],
+      feeDouble: data['feeDouble'],
+      feeString: data['feeString'],
     );
   }
 }

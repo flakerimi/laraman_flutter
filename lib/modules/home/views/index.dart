@@ -8,10 +8,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/account/controllers/account_controller.dart';
+import 'package:laraman/modules/transactions/views/payment.dart';
 import 'package:laraman/partials/header.dart';
 
 class HomeView extends StatelessWidget {
-  scanButton() async {
+  scanButton(context) async {
     AccountController accountController = Get.find<AccountController>();
 
     var scanResults = await Helper().scan();
@@ -21,16 +22,46 @@ class HomeView extends StatelessWidget {
 
     Merchant merchant = await MerchantController()
         .getMerchant(scanData.queryParameters['merchantId']);
-    print(merchant.logo);
-    Transaction transaction = Transaction(
+
+    //$newprice = $price * ((100-$amount) / 100);
+    double laramanAmount =
+        double.parse(scanData.queryParameters['amount']) * merchant.feeDouble;
+    print(laramanAmount);
+    double netAmount = double.parse(scanData.queryParameters['amount']) -
+        (double.parse(scanData.queryParameters['amount']) * merchant.feeDouble);
+    String fullName = accountController.account.value.firstName +
+        ' ' +
+        accountController.account.value.lastName;
+    var transaction = LaramanTransaction(
       scanData.queryParameters['merchantId'],
+      merchant.businessName,
+      int.parse(merchant.uniqueIdentificationNumber),
+      merchant.address,
+      merchant.city,
+      merchant.country,
+      merchant.phoneNumber,
+      merchant.email,
       scanData.queryParameters['branchId'],
       scanData.queryParameters['posId'],
-      double.parse(scanData.queryParameters['amount']),
       accountController.account.value.uid,
+      fullName,
+      accountController.account.value.phoneNumber,
+      accountController.account.value.email ?? ' ',
       scanData.queryParameters['description'],
+      double.parse(scanData.queryParameters['amount']),
+      merchant.feeDouble,
+      merchant.feeString,
+      laramanAmount,
+      netAmount,
+      'Processed',
+      DateTime.now(),
+      DateTime.now(),
     );
-    Helper().showPaymentBottomSheet(merchant, transaction);
+    // Get.to(
+    //   () => PaymentView(),
+    //   arguments: [merchant, transaction],
+    // );
+    await Helper().showPaymentBottomSheet(context, merchant, transaction);
   }
 
   @override
@@ -57,33 +88,19 @@ class HomeView extends StatelessWidget {
                         style: TextStyle(fontSize: 16),
                       ),
                       Text(
-                        _.account?.value?.address ?? 'fkaj',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        _.account?.value?.city ?? 'fkaj',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        _.account?.value?.country ?? 'fkaj',
-                        style: TextStyle(fontSize: 16),
+                        _.account?.value?.balance.toString() ?? '0',
+                        style: TextStyle(fontSize: 56),
                       ),
                     ],
                   );
                 }),
-                VerticalDivider(),
-                Text(FirebaseAuth.instance.currentUser.phoneNumber,
-                    style: TextStyle(fontSize: 16)),
-                VerticalDivider(),
-                Text(FirebaseAuth.instance.currentUser.uid,
-                    style: TextStyle(fontSize: 16)),
               ],
             ),
             VerticalDivider(),
             ElevatedButton(
               onPressed: () {
                 print('scan');
-                scanButton();
+                scanButton(context);
               },
               style: ElevatedButton.styleFrom(
                 padding:

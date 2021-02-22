@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Account {
   final String uid;
   final String address;
-  final String balance;
+  final double balance;
   final String city;
   final String country;
   final String dateCreated;
@@ -36,7 +36,7 @@ class Account {
     return Account(
       uid: data['uid'],
       address: data['address'],
-      balance: data['balance'],
+      balance: data['balance'].toDouble(),
       city: data['city'],
       country: data['country'],
       dateCreated: data['dateCreated'],
@@ -54,7 +54,7 @@ class Account {
     return Account(
       uid: data['uid'],
       address: data['address'],
-      balance: data['balance'],
+      balance: data['balance'].toDouble(),
       city: data['city'],
       country: data['country'],
       dateCreated: data['dateCreated'],
@@ -72,7 +72,7 @@ class Account {
   Map<String, dynamic> toJson() => {
         "uid": uid,
         "address": address,
-        "balance": balance,
+        "balance": balance.toDouble(),
         "city": city,
         "country": country,
         "dateCreated": dateCreated,

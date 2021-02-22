@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:laraman/modules/transactions/views/payment.dart';
 import 'package:laraman/splash.dart';
 import 'package:laraman/modules/account/views/index.dart';
 import 'package:laraman/modules/home/views/index.dart';
@@ -13,6 +14,6 @@ class AppRoutes {
     GetPage(name: '/home', page: () => HomeView()),
     GetPage(name: '/settings', page: () => SettingsView()),
     GetPage(name: '/edit-profile', page: () => EditProfile()),
-    /* GetPage(name: '/update-profile', page: () => UpdateProfileUI()),*/
+    GetPage(name: '/payment', page: () => PaymentView()),
   ];
 }
