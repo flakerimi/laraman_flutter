@@ -12,6 +12,7 @@ class Merchant {
   final phoneNumber;
   final uniqueIdentificationNumber;
   final qr;
+  final logo;
   final status;
   final tradeName;
   Merchant({
@@ -28,6 +29,7 @@ class Merchant {
     this.phoneNumber,
     this.uniqueIdentificationNumber,
     this.qr,
+    this.logo,
     this.status,
     this.tradeName,
   });
@@ -47,6 +49,7 @@ class Merchant {
       phoneNumber: data['phoneNumber'],
       uniqueIdentificationNumber: data['uniqueIdentificationNumber'],
       qr: data['qr'],
+      logo: data['logo'],
       status: data['status'],
       tradeName: data['tradeName'],
     );

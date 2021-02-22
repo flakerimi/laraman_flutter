@@ -1,7 +1,9 @@
+import 'package:laraman/helpers/global.dart';
 import 'package:laraman/modules/merchant/controller/merchant_controller.dart';
+import 'package:laraman/modules/merchant/http/merchant_service.dart';
+import 'package:laraman/modules/merchant/model/merchant.dart';
 import 'package:laraman/modules/transactions/controllers/transaction_controller.dart';
 import 'package:laraman/modules/transactions/models/transaction.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,55 +11,26 @@ import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/partials/header.dart';
 
 class HomeView extends StatelessWidget {
-  Future _scan() async {
-    String barcode = await scanner.scan();
-    if (barcode == null) {
-      barcode = 'Empty';
-      print('nothing return.');
-    } else {
-      qrData(barcode);
-    }
-  }
+  scanButton() async {
+    AccountController accountController = Get.find<AccountController>();
 
-  AccountController accountController = Get.find<AccountController>();
-  TransactionController transactionController =
-      Get.put<TransactionController>(TransactionController());
-  MerchantController merchantController =
-      Get.put<MerchantController>(MerchantController());
-  void qrData(String barcode) {
-    Uri uri = Uri.parse(
-        'laraman://payment?merchant_id=hQKnwAse2yhW4Jn2W1q4&branch_id=8X4iPlWbrICLwxU3cZvq&pos_id=tVK3usZ207EYdJRGFTcH&amount=12.35');
-    String type = uri.host;
-    var params = uri.queryParameters;
-    print(params['merchant_id']);
-    print(type);
-    Transaction payment = Transaction(
-        params['merchant_id'],
-        params['branch_id'],
-        params['pos_id'],
-        params['amount'],
-        accountController.account.value.uid);
-    var merchantData = merchantController.getMerchant(payment.merchantId);
+    var scanResults = await Helper().scan();
+    //print(scanResults);
+    var scanData = await Helper().stringToUri(scanResults);
+    //print(scanData.queryParameters);
 
-    // print(merchantData.businessName);
-    Get.bottomSheet(Column(
-      children: [
-        Container(
-          color: Colors.indigo,
-          child: Text('data'),
-        ),
-        ElevatedButton(
-            onPressed: () {
-              transactionController.addTransaction(payment.toJson());
-            },
-            child: Text('Confirm')),
-        ElevatedButton(
-            onPressed: () {
-              Get.back();
-            },
-            child: Text('Cancel')),
-      ],
-    ));
+    Merchant merchant = await MerchantController()
+        .getMerchant(scanData.queryParameters['merchantId']);
+    print(merchant.logo);
+    Transaction transaction = Transaction(
+      scanData.queryParameters['merchantId'],
+      scanData.queryParameters['branchId'],
+      scanData.queryParameters['posId'],
+      double.parse(scanData.queryParameters['amount']),
+      accountController.account.value.uid,
+      scanData.queryParameters['description'],
+    );
+    Helper().showPaymentBottomSheet(merchant, transaction);
   }
 
   @override
@@ -110,7 +83,7 @@ class HomeView extends StatelessWidget {
             ElevatedButton(
               onPressed: () {
                 print('scan');
-                _scan();
+                scanButton();
               },
               style: ElevatedButton.styleFrom(
                 padding:

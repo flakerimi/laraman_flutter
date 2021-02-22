@@ -2,21 +2,24 @@ class Transaction {
   final merchantId;
   final branchId;
   final posId;
-  final amount;
-  final customerID;
+  final double amount;
+  final customerId;
+  final description;
 
   Transaction(
     this.merchantId,
     this.branchId,
     this.posId,
     this.amount,
-    this.customerID,
+    this.customerId,
+    this.description,
   );
   Map<String, dynamic> toJson() => {
         "merchantId": merchantId,
         "branchId": branchId,
         "posId": posId,
         "amount": amount,
-        "customerID": customerID,
+        "customerId": customerId,
+        "description": description
       };
 }
