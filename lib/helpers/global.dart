@@ -24,8 +24,8 @@ class Helper {
     return Uri.parse(qrcode);
   }
 
-  showPaymentBottomSheet(
-      context, Merchant merchant, LaramanTransaction transaction) {
+  showPaymentBottomSheet(context, Merchant merchant,
+      LaramanTransaction transaction, double balance) {
     return showModalBottomSheet(
         context: context,
         isDismissible: false,
@@ -103,7 +103,7 @@ class Helper {
                     VerticalDivider(),
                     ElevatedButton(
                       onPressed: () {
-                        makePayment(transaction.toJson());
+                        makePayment(transaction, balance);
                       },
                       style: ElevatedButton.styleFrom(
                         padding: EdgeInsets.only(
@@ -123,8 +123,8 @@ class Helper {
         });
   }
 
-  makePayment(payment) async {
-    await TransactionController().addTransaction(payment);
+  makePayment(LaramanTransaction payment, double balance) async {
+    await TransactionController().addTransaction(payment, balance);
     Get.back();
     Get.defaultDialog(
         title: "Thank you",

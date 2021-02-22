@@ -19,7 +19,7 @@ dependencies:
     cloud_firestore:
     qrscan: ^0.2.22
     cached_network_image: ^2.5.0
-
+    flutter_svg:
         
 dev_dependencies:
     flutter_test:

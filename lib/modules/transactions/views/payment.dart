@@ -14,7 +14,8 @@ class PaymentView extends StatelessWidget {
     Merchant merchant = Get.arguments[0];
     LaramanTransaction transaction = Get.arguments[1];
     makePayment(payment) async {
-      await TransactionController().addTransaction(transaction);
+      await TransactionController()
+          .addTransaction(transaction, transaction.amount);
       Get.back();
       Get.defaultDialog(
           title: "Thank you",

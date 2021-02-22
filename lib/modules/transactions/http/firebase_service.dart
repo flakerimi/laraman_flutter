@@ -4,9 +4,9 @@ import 'package:laraman/modules/transactions/models/transaction.dart';
 
 class FirebaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  savePayment(LaramanTransaction payment) {
+  savePayment(LaramanTransaction payment, double balance) {
     var batch = _db.batch();
-    print(payment);
+    print(payment.customerId);
     var merchant = _db
         .collection('merchants')
         .doc(payment.merchantId)
@@ -27,6 +27,11 @@ class FirebaseService {
       "fromNetAmount": payment.netAmount,
       "createdAt": DateTime.now(),
     });
+    print(payment.customerId);
+    var balanceRef = _db.collection('users').doc(payment.customerId);
+
+    batch.update(balanceRef, {"balance": (balance - payment.amount)});
+
     var user = _db
         .collection('users')
         .doc(payment.customerId)
@@ -42,7 +47,6 @@ class FirebaseService {
     var transRef = _db.collection('transactions').doc();
     batch.set(transRef, payment.toJson());
 
-    batch.commit().then((data) => Get.snackbar("Data saved", "data"));
-    return true;
+    return batch.commit().then((data) => Get.snackbar("Data saved", "data"));
   }
 }

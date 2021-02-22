@@ -1,3 +1,4 @@
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:laraman/helpers/global.dart';
 import 'package:laraman/modules/merchant/controller/merchant_controller.dart';
 import 'package:laraman/modules/merchant/http/merchant_service.dart';
@@ -57,11 +58,22 @@ class HomeView extends StatelessWidget {
       DateTime.now(),
       DateTime.now(),
     );
+    //TODO fix this
+    print(accountController?.account?.value?.uid);
+    print(transaction.customerId);
+    if (accountController.account.value.balance >=
+        double.parse(scanData.queryParameters['amount'])) {
+      await Helper().showPaymentBottomSheet(context, merchant, transaction,
+          accountController.account.value.balance);
+    } else {
+      Get.defaultDialog(
+          title: 'Not enough funds!',
+          content: Text('Add some funds on balance.'));
+    }
     // Get.to(
     //   () => PaymentView(),
     //   arguments: [merchant, transaction],
     // );
-    await Helper().showPaymentBottomSheet(context, merchant, transaction);
   }
 
   @override
@@ -69,50 +81,46 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       appBar: Header(),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            VerticalDivider(),
-            VerticalDivider(),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                VerticalDivider(),
-                GetX<AccountController>(builder: (_) {
-                  return Column(
-                    children: [
-                      Text(
-                        'Welcome ${_.account?.value?.firstName} ',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      Text(
-                        _.account?.value?.balance.toString() ?? '0',
-                        style: TextStyle(fontSize: 56),
-                      ),
-                    ],
-                  );
-                }),
-              ],
-            ),
-            VerticalDivider(),
-            ElevatedButton(
-              onPressed: () {
-                print('scan');
-                scanButton(context);
-              },
-              style: ElevatedButton.styleFrom(
-                padding:
-                    EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              VerticalDivider(),
+              GetX<AccountController>(builder: (_) {
+                return Column(
+                  children: [
+                    SvgPicture.string(_.account?.value?.qrSvg ?? "s"),
+                    Text(
+                      'Welcome ${_.account?.value?.firstName} ',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                    Text(
+                      _.account?.value?.balance.toString() ?? '0',
+                      style: TextStyle(fontSize: 56),
+                    ),
+                  ],
+                );
+              }),
+              VerticalDivider(),
+              ElevatedButton(
+                onPressed: () {
+                  print('scan');
+                  scanButton(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  padding:
+                      EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+                ),
+                child: Text(
+                  "SCAN",
+                  style: TextStyle(fontSize: 30),
+                ),
               ),
-              child: Text(
-                "SCAN",
-                style: TextStyle(fontSize: 30),
-              ),
-            ),
-            VerticalDivider(),
-          ],
+              VerticalDivider(),
+            ],
+          ),
         ),
       ),
     );

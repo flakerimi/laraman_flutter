@@ -6,8 +6,8 @@ class Account {
   final double balance;
   final String city;
   final String country;
-  final String dateCreated;
-  final String dateUpdated;
+  final Timestamp dateCreated;
+  final Timestamp dateUpdated;
   final String email;
   final String firstName;
   final String lastName;
