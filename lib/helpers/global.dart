@@ -4,9 +4,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/ledger/controllers/ledger_controller.dart';
+import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
-import 'package:laraman/modules/transactions/controllers/transaction_controller.dart';
-import 'package:laraman/modules/transactions/models/transaction.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 
 class Helper {
@@ -24,8 +24,8 @@ class Helper {
     return Uri.parse(qrcode);
   }
 
-  showPaymentBottomSheet(context, Merchant merchant,
-      LaramanTransaction transaction, double balance) {
+  showPaymentBottomSheet(
+      context, Merchant merchant, Ledger transaction, double balance) {
     return showModalBottomSheet(
         context: context,
         isDismissible: false,
@@ -123,8 +123,8 @@ class Helper {
         });
   }
 
-  makePayment(LaramanTransaction payment, double balance) async {
-    await TransactionController().addTransaction(payment, balance);
+  makePayment(Ledger payment, double balance) async {
+    await LedgerController().addTransaction(payment, balance);
     Get.back();
     Get.defaultDialog(
         title: "Thank you",

@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
-import 'package:laraman/modules/transactions/models/transaction.dart';
+import 'package:laraman/modules/ledger/models/ledger.dart';
 
 class FirebaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  savePayment(LaramanTransaction payment, double balance) {
+  savePayment(Ledger payment, double balance) {
     var batch = _db.batch();
     print(payment.customerId);
     var merchant = _db

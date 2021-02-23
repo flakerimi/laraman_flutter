@@ -3,19 +3,18 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/ledger/controllers/ledger_controller.dart';
+import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
-import 'package:laraman/modules/transactions/controllers/transaction_controller.dart';
-import 'package:laraman/modules/transactions/models/transaction.dart';
 
 class PaymentView extends StatelessWidget {
   // final merchant = data[0];
   @override
   Widget build(BuildContext context) {
     Merchant merchant = Get.arguments[0];
-    LaramanTransaction transaction = Get.arguments[1];
+    Ledger transaction = Get.arguments[1];
     makePayment(payment) async {
-      await TransactionController()
-          .addTransaction(transaction, transaction.amount);
+      await LedgerController().addTransaction(transaction, transaction.amount);
       Get.back();
       Get.defaultDialog(
           title: "Thank you",

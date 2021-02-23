@@ -1,4 +1,4 @@
-class LaramanTransaction {
+class Ledger {
   String merchantId;
   String merchantName;
   int merchantUin;
@@ -23,7 +23,7 @@ class LaramanTransaction {
   DateTime createdAt;
   DateTime updateAt;
 
-  LaramanTransaction(
+  Ledger(
       this.merchantId,
       this.merchantName,
       this.merchantUin,
@@ -48,7 +48,7 @@ class LaramanTransaction {
       this.createdAt,
       this.updateAt);
 
-  LaramanTransaction.fromJson(Map<String, dynamic> json) {
+  Ledger.fromJson(Map<String, dynamic> json) {
     merchantId = json['merchantId'];
     merchantName = json['merchantName'];
     merchantUin = json['merchantUin'];

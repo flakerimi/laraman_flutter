@@ -13,6 +13,7 @@ class Merchant {
   final phoneNumber;
   final uniqueIdentificationNumber;
   final qr;
+  final qrSvg;
   final logo;
   final status;
   final feeDouble;
@@ -32,6 +33,7 @@ class Merchant {
       this.phoneNumber,
       this.uniqueIdentificationNumber,
       this.qr,
+      this.qrSvg,
       this.logo,
       this.status,
       this.feeDouble,
@@ -53,6 +55,7 @@ class Merchant {
       phoneNumber: data['phoneNumber'],
       uniqueIdentificationNumber: data['uniqueIdentificationNumber'],
       qr: data['qr'],
+      qrSvg: data['qrSvg'],
       logo: data['logo'],
       status: data['status'],
       feeDouble: data['feeDouble'],

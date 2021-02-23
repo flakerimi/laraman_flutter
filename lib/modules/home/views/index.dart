@@ -1,15 +1,11 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:laraman/helpers/global.dart';
+import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/merchant/controller/merchant_controller.dart';
-import 'package:laraman/modules/merchant/http/merchant_service.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
-import 'package:laraman/modules/transactions/controllers/transaction_controller.dart';
-import 'package:laraman/modules/transactions/models/transaction.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/account/controllers/account_controller.dart';
-import 'package:laraman/modules/transactions/views/payment.dart';
 import 'package:laraman/partials/header.dart';
 
 class HomeView extends StatelessWidget {
@@ -33,7 +29,7 @@ class HomeView extends StatelessWidget {
     String fullName = accountController.account.value.firstName +
         ' ' +
         accountController.account.value.lastName;
-    var transaction = LaramanTransaction(
+    var transaction = Ledger(
       scanData.queryParameters['merchantId'],
       merchant.businessName,
       int.parse(merchant.uniqueIdentificationNumber),

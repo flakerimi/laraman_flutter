@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:laraman/modules/transactions/views/payment.dart';
+import 'package:laraman/modules/ledger/views/payment.dart';
 import 'package:laraman/splash.dart';
 import 'package:laraman/modules/account/views/index.dart';
 import 'package:laraman/modules/home/views/index.dart';
