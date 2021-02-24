@@ -38,8 +38,6 @@ class LoginView extends StatelessWidget {
               fsUser.doc(user.uid).set(account.toJson());
               Get.to(EditProfile());
             } else {
-              Get.find<AccountController>().account = await AccountService()
-                  .getAccount(FirebaseAuth.instance.currentUser.uid);
               Get.to(HomeView());
             }
           } else {
@@ -91,9 +89,6 @@ class LoginView extends StatelessWidget {
                       fsUser.doc(user.uid).set(account.toJson());
                       Get.to(EditProfile());
                     } else {
-                      Get.find<AccountController>().account =
-                          await AccountService().getAccount(
-                              FirebaseAuth.instance.currentUser.uid);
                       Get.to(HomeView());
                     }
                   } else {

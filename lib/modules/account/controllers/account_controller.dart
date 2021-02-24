@@ -5,7 +5,7 @@ import 'package:laraman/modules/account/models/account.dart';
 
 class AccountController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  // static AuthController to = Get.find();
+  static AccountController to = Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   RxBool isLogged = false.obs;
