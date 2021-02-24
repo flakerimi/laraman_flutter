@@ -21,7 +21,7 @@ class Laraman extends StatelessWidget {
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Laraman',
+      title: 'LARAMAN',
       theme: ThemeData(
         primarySwatch: Colors.indigo,
         primaryTextTheme: TextTheme(
