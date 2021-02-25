@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/partials/header.dart';
+import 'package:laraman/partials/left_drawer.dart';
+import 'package:laraman/partials/right_drawer.dart';
 
 class HomeView extends StatelessWidget {
   final AccountController accountController = AccountController.to;
@@ -24,7 +26,7 @@ class HomeView extends StatelessWidget {
     //$newprice = $price * ((100-$amount) / 100);
     double laramanAmount =
         double.parse(scanData.queryParameters['amount']) * merchant.feeDouble;
-    print(laramanAmount);
+
     double netAmount = double.parse(scanData.queryParameters['amount']) -
         (double.parse(scanData.queryParameters['amount']) * merchant.feeDouble);
     String fullName = accountController.account.value.firstName +
@@ -76,6 +78,8 @@ class HomeView extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: Header(),
+      drawer: LeftDrawer(),
+      endDrawer: RightDrawer(),
       body: Center(
         child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -148,12 +152,12 @@ class HomeView extends StatelessWidget {
                                         CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        'x ',
+                                        '${_.account.value.balance.toPrecision(2)}  ',
                                         style: GoogleFonts.rubik(
                                             fontSize: 30, color: Colors.white),
                                       ),
                                       Text(
-                                        'y€ ',
+                                        '€ ',
                                         style: GoogleFonts.rubik(
                                             fontSize: 20, color: Colors.white),
                                       ),

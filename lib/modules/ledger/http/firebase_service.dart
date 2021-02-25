@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/ledger/models/ledger.dart';
 
@@ -47,6 +49,32 @@ class FirebaseService {
     var transRef = _db.collection('transactions').doc();
     batch.set(transRef, payment.toJson());
 
-    return batch.commit().then((data) => Get.snackbar("Data saved", "data"));
+    return batch.commit().then(
+          (data) => Get.snackbar(
+            "Thank You!",
+            "Your payment has been processed or something",
+            snackPosition: SnackPosition.BOTTOM,
+            messageText: Column(
+              children: [
+                Image.asset('assets/images/check.png'),
+                Text('Your payment has been processed or something')
+              ],
+            ),
+          ),
+        );
+  }
+
+  getUserTransactions() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    try {
+      return _db
+          .collection('users')
+          .doc(auth.currentUser.uid)
+          .collection('transactions')
+          .snapshots()
+          .toList();
+    } catch (e) {
+      print(e.toString());
+    }
   }
 }

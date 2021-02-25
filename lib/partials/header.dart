@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:laraman/modules/settings/views/index.dart';
-
-import '../modules/home/views/index.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -11,17 +8,8 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: AppBar(
-        leading: IconButton(
-          icon: Icon(
-            Icons.menu,
-          ),
-          color: Colors.indigo,
-          onPressed: () {
-            // Get.to(SettingsUI());
-          },
-        ),
         title: GestureDetector(
-          onTap: () => Get.to(HomeView()),
+          onTap: () => Get.toNamed('/home'),
           child: Text(
             'LARAMAN',
             style: GoogleFonts.rubik(
@@ -33,14 +21,29 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.account_circle_outlined),
-            onPressed: () {
-              Get.to(() => SettingsView());
+        leading: Builder(
+          builder: (context) {
+            return IconButton(
+              icon: Icon(Icons.menu_sharp),
+              color: Colors.indigo,
+              onPressed: () {
+                Scaffold.of(context).openDrawer();
+              },
+            );
+          },
+        ),
+        actions: <Widget>[
+          Builder(
+            builder: (context) {
+              return IconButton(
+                icon: Icon(Icons.person),
+                color: Colors.indigo,
+                onPressed: () {
+                  Scaffold.of(context).openEndDrawer();
+                },
+              );
             },
-            color: Colors.indigo,
-          ),
+          )
         ],
       ),
     );

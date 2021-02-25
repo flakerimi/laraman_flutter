@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'config/routes.dart';
 import 'modules/account/controllers/account_controller.dart';
 
@@ -28,6 +29,9 @@ class Laraman extends StatelessWidget {
           headline6: TextStyle(
             color: Colors.indigo,
           ),
+        ),
+        textTheme: GoogleFonts.rubikTextTheme(
+          Theme.of(context).textTheme,
         ),
         appBarTheme: AppBarTheme(
           color: Colors.indigo,

@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -124,18 +122,7 @@ class Helper {
   }
 
   makePayment(Ledger payment, double balance) async {
-    await LedgerController().addTransaction(payment, balance);
     Get.back();
-    Get.defaultDialog(
-        title: "Thank you",
-        content: Column(
-          children: [
-            Image.asset('assets/images/check.png'),
-            Text('Your payment has been processed or something')
-          ],
-        ));
-    Timer.periodic(Duration(seconds: 3), (_) {
-      Get.back();
-    });
+    await LedgerController().addTransaction(payment, balance);
   }
 }

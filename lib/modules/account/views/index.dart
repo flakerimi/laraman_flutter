@@ -5,8 +5,6 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laraman/modules/home/views/index.dart';
-import 'package:laraman/modules/account/controllers/account_controller.dart';
-import 'package:laraman/modules/settings/http/account_service.dart';
 import 'package:laraman/modules/account/models/account.dart';
 import 'package:laraman/modules/settings/views/edit_profile.dart';
 
