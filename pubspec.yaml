@@ -21,7 +21,7 @@ dependencies:
     cached_network_image: ^2.5.0
     flutter_svg:
     google_fonts: ^1.1.2
-        
+ 
 dev_dependencies:
     flutter_test:
         sdk: flutter
@@ -29,4 +29,5 @@ dev_dependencies:
 flutter:
     uses-material-design: true
     assets:
-        - assets/images/
+        - assets/images/        
+ 
