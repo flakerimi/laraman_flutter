@@ -3,13 +3,7 @@ import 'package:laraman/modules/ledger/http/firebase_service.dart';
 import 'package:laraman/modules/ledger/models/ledger.dart';
 
 class LedgerController extends GetxController {
-  List<Ledger> _trans = List<Ledger>.from([0, 1, 2, 3]).obs;
-
-  List<Ledger> get trans => _trans;
-
-  set trans(List<Ledger> trans) {
-    _trans = trans;
-  }
+  List<Ledger> trans = List<Ledger>.from([0, 1, 2, 3]).obs;
 
   @override
   void onReady() {
@@ -23,6 +17,6 @@ class LedgerController extends GetxController {
   }
 
   getUserTransactions() async {
-    _trans.addAll(await FirebaseService().getUserTransactions());
+    trans.addAll(await FirebaseService().getUserTransactions());
   }
 }
