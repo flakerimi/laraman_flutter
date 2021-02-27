@@ -10,62 +10,86 @@ import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class HomeView extends StatelessWidget {
   final AccountController accountController = AccountController.to;
 
   scanButton(context) async {
-    var scanResults = await Helper().scan();
-    //print(scanResults);
-    var scanData = await Helper().stringToUri(scanResults);
-    //print(scanData.queryParameters);
+    var status = await Permission.camera.status;
+    if (status.isGranted) {
+      var scanResults = await Helper().scan();
+      //print(scanResults);
+      var scanData = await Helper().stringToUri(scanResults);
+      //print(scanData.queryParameters);
 
-    Merchant merchant = await MerchantController()
-        .getMerchant(scanData.queryParameters['merchantId']);
+      Merchant merchant = await MerchantController()
+          .getMerchant(scanData.queryParameters['merchantId']);
 
-    //$newprice = $price * ((100-$amount) / 100);
-    double laramanAmount =
-        double.parse(scanData.queryParameters['amount']) * merchant.feeDouble;
+      //$newprice = $price * ((100-$amount) / 100);
+      double laramanAmount =
+          double.parse(scanData.queryParameters['amount']) * merchant.feeDouble;
 
-    double netAmount = double.parse(scanData.queryParameters['amount']) -
-        (double.parse(scanData.queryParameters['amount']) * merchant.feeDouble);
-    String fullName = accountController.account.value.firstName +
-        ' ' +
-        accountController.account.value.lastName;
-    var transaction = Ledger(
-      scanData.queryParameters['merchantId'],
-      merchant.businessName,
-      int.parse(merchant.uniqueIdentificationNumber),
-      merchant.address,
-      merchant.city,
-      merchant.country,
-      merchant.phoneNumber,
-      merchant.email,
-      scanData.queryParameters['branchId'],
-      scanData.queryParameters['posId'],
-      accountController.account.value.uid,
-      fullName,
-      accountController.account.value.phoneNumber,
-      accountController.account.value.email ?? ' ',
-      scanData.queryParameters['description'],
-      double.parse(scanData.queryParameters['amount']),
-      merchant.feeDouble,
-      merchant.feeString,
-      laramanAmount,
-      netAmount,
-      'Processed',
-      DateTime.now(),
-      DateTime.now(),
-    );
+      double netAmount = double.parse(scanData.queryParameters['amount']) -
+          (double.parse(scanData.queryParameters['amount']) *
+              merchant.feeDouble);
+      String fullName = accountController.account.value.firstName +
+          ' ' +
+          accountController.account.value.lastName;
+      var transaction = Ledger(
+        scanData.queryParameters['merchantId'],
+        merchant.businessName,
+        merchant.logo,
+        int.parse(merchant.uniqueIdentificationNumber),
+        merchant.address,
+        merchant.city,
+        merchant.country,
+        merchant.phoneNumber,
+        merchant.email,
+        scanData.queryParameters['branchId'],
+        scanData.queryParameters['posId'],
+        accountController.account.value.uid,
+        fullName,
+        accountController.account.value.phoneNumber,
+        accountController.account.value.email ?? ' ',
+        scanData.queryParameters['description'],
+        double.parse(scanData.queryParameters['amount']),
+        merchant.feeDouble,
+        merchant.feeString,
+        laramanAmount,
+        netAmount,
+        'Processed',
+        DateTime.now(),
+        DateTime.now(),
+      );
 
-    if (accountController.account.value.balance >=
-        double.parse(scanData.queryParameters['amount'])) {
-      await Helper().showPaymentBottomSheet(context, merchant, transaction,
-          accountController.account.value.balance);
+      if (accountController.account.value.balance >=
+          double.parse(scanData.queryParameters['amount'])) {
+        await Helper().showPaymentBottomSheet(context, merchant, transaction,
+            accountController.account.value.balance);
+      } else {
+        Get.defaultDialog(
+            title: 'Not enough funds!',
+            content: Text('Add some funds on balance.'));
+      }
     } else {
-      Get.defaultDialog(
-          title: 'Not enough funds!',
-          content: Text('Add some funds on balance.'));
+      showDialog(
+          context: context,
+          builder: (BuildContext context) => AlertDialog(
+                title: Text('Camera Permission'),
+                content: Text(
+                    'This app needs camera access to take pictures for upload user profile photo'),
+                actions: <Widget>[
+                  ElevatedButton(
+                    child: Text('Deny'),
+                    onPressed: () => Navigator.of(context).pop(),
+                  ),
+                  ElevatedButton(
+                    child: Text('Settings'),
+                    onPressed: () => openAppSettings(),
+                  ),
+                ],
+              ));
     }
     // Get.to(
     //   () => PaymentView(),

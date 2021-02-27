@@ -18,17 +18,33 @@ class UserTransactions extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: GetX<LedgerController>(
-              init: LedgerController(),
-              builder: (controller) {
+            builder: (LedgerController controller) {
+              if (controller != null) {
                 return ListView.builder(
-                  itemCount: controller.trans.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text('Number: ${controller.trans[index]}'),
-                    );
-                  },
+                    itemCount: controller.trans.value.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        leading: Image.network(
+                            controller.trans.value[index].merchantLogo),
+                        title: Text(
+                          '${controller.trans.value[index].merchantName}',
+                          style: TextStyle(fontSize: 20),
+                        ),
+                        subtitle: Text(
+                            '${controller.trans.value[index].description}'),
+                        trailing: Text(
+                          "${controller.trans.value[index].fromAmount.toString()}€",
+                          style: TextStyle(fontSize: 30),
+                        ),
+                      );
+                    });
+              } else {
+                return Center(
+                  child: CircularProgressIndicator(),
                 );
-              }),
+              }
+            },
+          ),
         ),
       ),
     );

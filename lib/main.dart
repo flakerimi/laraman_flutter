@@ -6,12 +6,14 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'config/routes.dart';
 import 'modules/account/controllers/account_controller.dart';
+import 'modules/ledger/controllers/ledger_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
   Get.put<AccountController>(AccountController());
+  Get.put<LedgerController>(LedgerController());
   runApp(Laraman());
 }
 

@@ -1,6 +1,7 @@
 class Ledger {
   String merchantId;
   String merchantName;
+  String merchantLogo;
   int merchantUin;
   String merchantAddress;
   String merchantCity;
@@ -26,6 +27,7 @@ class Ledger {
   Ledger(
       this.merchantId,
       this.merchantName,
+      this.merchantLogo,
       this.merchantUin,
       this.merchantAddress,
       this.merchantCity,
@@ -51,6 +53,7 @@ class Ledger {
   Ledger.fromJson(Map<String, dynamic> json) {
     merchantId = json['merchantId'];
     merchantName = json['merchantName'];
+    merchantLogo = json['merchantLogo'];
     merchantUin = json['merchantUin'];
     merchantAddress = json['merchantAddress'];
     merchantCity = json['merchantCity'];
@@ -78,6 +81,7 @@ class Ledger {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['merchantId'] = this.merchantId;
     data['merchantName'] = this.merchantName;
+    data['merchantLogo'] = this.merchantLogo;
     data['merchantUin'] = this.merchantUin;
     data['merchantAddress'] = this.merchantAddress;
     data['merchantCity'] = this.merchantCity;

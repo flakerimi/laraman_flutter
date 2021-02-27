@@ -1,14 +1,15 @@
 import 'package:get/get.dart';
 import 'package:laraman/modules/ledger/http/firebase_service.dart';
 import 'package:laraman/modules/ledger/models/ledger.dart';
+import 'package:laraman/modules/ledger/models/user_ledger.dart';
 
 class LedgerController extends GetxController {
-  List<Ledger> trans = List<Ledger>.from([0, 1, 2, 3]).obs;
+  Rx<List<UserLedger>> trans = Rx<List<UserLedger>>();
 
   @override
   void onReady() {
     // called after the widget is rendered on screen
-    getUserTransactions();
+    trans.bindStream(getUserTransactions());
     super.onReady();
   }
 
@@ -16,7 +17,6 @@ class LedgerController extends GetxController {
     return FirebaseService().savePayment(transaction, balance);
   }
 
-  getUserTransactions() async {
-    trans.addAll(await FirebaseService().getUserTransactions());
-  }
+  Stream<List<UserLedger>> getUserTransactions() =>
+      FirebaseService().getUserTransactions();
 }

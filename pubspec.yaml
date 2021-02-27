@@ -21,7 +21,8 @@ dependencies:
     cached_network_image: ^2.5.0
     flutter_svg:
     google_fonts: ^1.1.2
- 
+    permission_handler: ^5.0.1+1
+    
 dev_dependencies:
     flutter_test:
         sdk: flutter

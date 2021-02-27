@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/ledger/models/ledger.dart';
+import 'package:laraman/modules/ledger/models/user_ledger.dart';
 
 class FirebaseService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -20,8 +21,11 @@ class FirebaseService {
     batch.set(laraman, {
       "laramanAmount": payment.laramanAmount,
       "merchantId": payment.merchantId,
+      "merchantName": payment.merchantName,
+      "merchantLogo": payment.merchantLogo,
       "branchId": payment.branchId,
       "posId": payment.posId,
+      "description": payment.description,
       "customerId": payment.customerId,
       "fromFee": payment.laramanFeeDouble,
       "fromFeeStrung": payment.laramanFeeString,
@@ -41,8 +45,11 @@ class FirebaseService {
         .doc();
     batch.set(user, {
       "merchantId": payment.merchantId,
+      "merchantName": payment.merchantName,
+      "merchantLogo": payment.merchantLogo,
       "branchId": payment.branchId,
       "posId": payment.posId,
+      "description": payment.description,
       "fromAmount": payment.amount,
       "createdAt": DateTime.now(),
     });
@@ -64,17 +71,21 @@ class FirebaseService {
         );
   }
 
-  getUserTransactions() {
+  Stream<List<UserLedger>> getUserTransactions() {
     FirebaseAuth auth = FirebaseAuth.instance;
-    try {
-      return _db
-          .collection('users')
-          .doc(auth.currentUser.uid)
-          .collection('transactions')
-          .snapshots()
-          .toList();
-    } catch (e) {
-      print(e.toString());
-    }
+
+    return _db
+        .collection('users')
+        .doc(auth.currentUser.uid)
+        .collection('transactions')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((QuerySnapshot qShot) {
+      List<UserLedger> retVal = List();
+      qShot.docs.forEach((element) {
+        retVal.add(UserLedger.documentSnapshot(element));
+      });
+      return retVal;
+    });
   }
 }
