@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'config/routes.dart';
 import 'modules/account/controllers/account_controller.dart';
+import 'modules/friendship/controllers/friendship_controller.dart';
 import 'modules/ledger/controllers/ledger_controller.dart';
 
 void main() async {
@@ -14,6 +15,7 @@ void main() async {
   await GetStorage.init();
   Get.put<AccountController>(AccountController());
   Get.put<LedgerController>(LedgerController());
+  Get.put<FriendController>(FriendController());
   runApp(Laraman());
 }
 
@@ -31,9 +33,18 @@ class Laraman extends StatelessWidget {
           headline6: TextStyle(
             color: Colors.indigo,
           ),
+          headline1: TextStyle(
+            fontSize: 20,
+            color: Colors.indigo,
+          ),
         ),
         textTheme: GoogleFonts.rubikTextTheme(
-          Theme.of(context).textTheme,
+          Theme.of(context).textTheme.copyWith(
+                headline4: TextStyle(
+                  fontSize: 30,
+                  color: Colors.indigo,
+                ),
+              ),
         ),
         appBarTheme: AppBarTheme(
           color: Colors.indigo,

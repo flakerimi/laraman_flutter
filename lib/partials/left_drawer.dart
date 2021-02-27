@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/friendship/views/index.dart';
 import 'package:laraman/modules/ledger/views/user_transactions.dart';
 
 class LeftDrawer extends StatelessWidget {
@@ -117,6 +118,7 @@ class LeftDrawer extends StatelessWidget {
                 "Shoqeria",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
+              onTap: () => Get.to(FriendsView()),
             ),
           ),
           Container(
