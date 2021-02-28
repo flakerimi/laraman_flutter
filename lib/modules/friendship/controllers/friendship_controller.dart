@@ -1,6 +1,4 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/http/friend_service.dart';
 import 'package:laraman/modules/friendship/models/friendship.dart';
