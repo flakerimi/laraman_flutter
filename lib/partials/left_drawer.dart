@@ -127,7 +127,7 @@ class LeftDrawer extends StatelessWidget {
                 ),
                 onTap: () {
                   Get.to(
-                    () => {},
+                    () => {SubscriptionView()},
                   );
                 },
               ),

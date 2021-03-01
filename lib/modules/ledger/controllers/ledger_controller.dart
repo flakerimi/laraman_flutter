@@ -9,7 +9,7 @@ class LedgerController extends GetxController {
   @override
   void onReady() {
     // called after the widget is rendered on screen
-    trans.bindStream(getUserTransactions());
+    // trans.bindStream(getUserTransactions());
     super.onReady();
   }
 
