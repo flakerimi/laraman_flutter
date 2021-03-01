@@ -1,15 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laraman/modules/account/controllers/account_controller.dart';
-import 'package:laraman/modules/ledger/models/ledger.dart';
-import 'package:laraman/modules/ledger/models/user_ledger.dart';
+import 'package:laraman/modules/payment/models/Payment.dart';
+import 'package:laraman/modules/payment/models/user_payment.dart';
 
-class FirebaseService {
-  final AccountController accountController = AccountController.to;
-
+class PaymentService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
-  savePayment(Ledger payment, double balance) {
+  savePayment(Payment payment, double balance) {
     var batch = _db.batch();
     print(payment.customerId);
     var merchant = _db
@@ -73,17 +71,19 @@ class FirebaseService {
         );
   }
 
-  Stream<List<UserLedger>> getUserTransactions() {
+  Stream<List<UserPayment>> getUserTransactions() {
+    FirebaseAuth auth = FirebaseAuth.instance;
+
     return _db
         .collection('users')
-        .doc(accountController.firebaseUser.value.uid)
+        .doc(auth.currentUser.uid)
         .collection('transactions')
         .orderBy('createdAt', descending: true)
         .snapshots()
         .map((QuerySnapshot qShot) {
-      List<UserLedger> retVal = List();
+      List<UserPayment> retVal = List();
       qShot.docs.forEach((element) {
-        retVal.add(UserLedger.documentSnapshot(element));
+        retVal.add(UserPayment.documentSnapshot(element));
       });
       return retVal;
     });
