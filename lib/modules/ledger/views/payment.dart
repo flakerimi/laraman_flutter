@@ -9,12 +9,14 @@ import 'package:laraman/modules/merchant/model/merchant.dart';
 
 class PaymentView extends StatelessWidget {
   // final merchant = data[0];
+  final LedgerController ledger = Get.find<LedgerController>();
+
   @override
   Widget build(BuildContext context) {
     Merchant merchant = Get.arguments[0];
     Ledger transaction = Get.arguments[1];
     makePayment(payment) async {
-      await LedgerController().addTransaction(transaction, transaction.amount);
+      await ledger.addTransaction(transaction, transaction.amount);
       Get.back();
       Get.defaultDialog(
           title: "Thank you",

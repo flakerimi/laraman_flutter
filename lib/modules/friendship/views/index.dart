@@ -3,13 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/controllers/friendship_controller.dart';
 import 'package:laraman/modules/friendship/models/friendship.dart';
+import 'package:laraman/modules/friendship/views/friend.dart';
 import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
 class FriendsView extends StatelessWidget {
+  final FriendController controller =
+      Get.put<FriendController>(FriendController());
   Future<List<Friend>> _refreshData() async {
-    return await FriendController().getFriendRequests();
+    return await controller.getFriendRequests();
     //_data.clear();
     //_data.addAll(FriendService().getFriendRequests());
   }
@@ -23,13 +26,13 @@ class FriendsView extends StatelessWidget {
       appBar: Header(),
       drawer: LeftDrawer(),
       endDrawer: RightDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Row(
               children: [
                 Text(
                   'Friends',
@@ -58,7 +61,11 @@ class FriendsView extends StatelessWidget {
                     })
               ],
             ),
-            FutureBuilder<List<Friend>>(
+          ),
+          Divider(),
+          Padding(
+            padding: const EdgeInsets.all(0.0),
+            child: FutureBuilder<List<Friend>>(
               future: _refreshData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -68,19 +75,21 @@ class FriendsView extends StatelessWidget {
                     child: ListView(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      padding: EdgeInsets.all(0.0),
                       children: snapshot.data
                           .map(
                             (doc) => ListTile(
-                              leading: SvgPicture.string(
-                                doc.qrSvg,
+                              leading: SizedBox(
                                 width: 50,
-                                height: 50,
+                                child: SvgPicture.string(
+                                  doc.qrSvg,
+                                ),
                               ),
-                              title: Text(doc.firstName.toString() +
-                                  ' ' +
-                                  doc.lastName),
+                              title: Text(doc.firstName + ' ' + doc.lastName),
                               subtitle: Text(doc.phoneNumber),
+                              trailing: Icon(Icons.account_box),
+                              onTap: () => Get.to(FriendView(),
+                                  transition: Transition.rightToLeft,
+                                  arguments: doc.toJson()),
                             ),
                           )
                           .toList(),
@@ -95,8 +104,8 @@ class FriendsView extends StatelessWidget {
                 }
               },
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

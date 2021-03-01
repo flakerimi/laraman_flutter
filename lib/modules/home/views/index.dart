@@ -105,113 +105,114 @@ class HomeView extends StatelessWidget {
       drawer: LeftDrawer(),
       endDrawer: RightDrawer(),
       body: Center(
-        child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: GetX<AccountController>(builder: (_) {
-              return _.account.value == null
-                  ? CircularProgressIndicator()
-                  : Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        Container(
-                          height: 200,
-                          padding: EdgeInsets.all(10),
-                          margin: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              bottomLeft: Radius.circular(40),
-                            ),
-                            color: Colors.indigo,
+        child: GetX<AccountController>(
+          builder: (_) {
+            return _.account.value == null
+                ? CircularProgressIndicator()
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: double.infinity,
+                        height: 200,
+                        padding: EdgeInsets.all(10),
+                        margin: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                            bottomLeft: Radius.circular(40),
                           ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                    bottomLeft: Radius.circular(40),
-                                  ),
-                                ),
-                                child: SvgPicture.string(
-                                  _.account?.value?.qrSvg,
-                                  height: 100,
-                                  width: 100,
-                                  clipBehavior: Clip.none,
+                          color: Colors.indigo,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                  bottomLeft: Radius.circular(40),
                                 ),
                               ),
-                              VerticalDivider(),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '${_.account.value.firstName} ${_.account.value.lastName}',
-                                    style: GoogleFonts.rubik(
-                                        fontSize: 23, color: Colors.white),
-                                  ),
-                                  Divider(
-                                    height: 5,
-                                  ),
-                                  Text(
-                                    '${_.account.value.phoneNumber}  ',
-                                    style: GoogleFonts.rubik(
-                                        fontSize: 13, color: Colors.white),
-                                  ),
-                                  Divider(
-                                    height: 20,
-                                  ),
-                                  Text(
-                                    'CURRENT BALANCE',
-                                    style: GoogleFonts.rubik(
-                                        fontSize: 13, color: Colors.white),
-                                  ),
-                                  Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${_.account.value.balance.toPrecision(2)}  ',
-                                        style: GoogleFonts.rubik(
-                                            fontSize: 30, color: Colors.white),
-                                      ),
-                                      Text(
-                                        '€ ',
-                                        style: GoogleFonts.rubik(
-                                            fontSize: 20, color: Colors.white),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              )
-                            ],
-                          ),
+                              child: SvgPicture.string(
+                                _.account?.value?.qrSvg,
+                                height: 90,
+                                width: 90,
+                                clipBehavior: Clip.none,
+                              ),
+                            ),
+                            VerticalDivider(),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(
+                                  '${_.account.value.firstName} ${_.account.value.lastName}',
+                                  style: GoogleFonts.rubik(
+                                      fontSize: 23, color: Colors.white),
+                                ),
+                                Divider(
+                                  height: 5,
+                                ),
+                                Text(
+                                  '${_.account.value.phoneNumber}  ',
+                                  style: GoogleFonts.rubik(
+                                      fontSize: 13, color: Colors.white),
+                                ),
+                                Divider(
+                                  height: 20,
+                                ),
+                                Text(
+                                  'CURRENT BALANCE',
+                                  style: GoogleFonts.rubik(
+                                      fontSize: 13, color: Colors.white),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '${_.account.value.balance.toPrecision(2)}  ',
+                                      style: GoogleFonts.rubik(
+                                          fontSize: 30, color: Colors.white),
+                                    ),
+                                    Text(
+                                      '€ ',
+                                      style: GoogleFonts.rubik(
+                                          fontSize: 20, color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        Divider(
-                          height: 50,
+                      ),
+                      Divider(
+                        height: 50,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          print('scan');
+                          scanButton(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(40),
                         ),
-                        ElevatedButton(
-                          onPressed: () {
-                            print('scan');
-                            scanButton(context);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: CircleBorder(),
-                            padding: EdgeInsets.all(40),
-                          ),
-                          child: Text(
-                            "SCAN",
-                            style: TextStyle(fontSize: 30),
-                          ),
+                        child: Text(
+                          "SCAN",
+                          style: TextStyle(fontSize: 30),
                         ),
-                      ],
-                    );
-            })),
+                      ),
+                    ],
+                  );
+          },
+        ),
       ),
     );
   }

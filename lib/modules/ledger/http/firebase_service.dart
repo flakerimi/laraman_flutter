@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/ledger/models/user_ledger.dart';
 
 class FirebaseService {
+  AccountController auth = Get.find<AccountController>();
+
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   savePayment(Ledger payment, double balance) {
     var batch = _db.batch();
@@ -72,11 +74,9 @@ class FirebaseService {
   }
 
   Stream<List<UserLedger>> getUserTransactions() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-
     return _db
         .collection('users')
-        .doc(auth.currentUser.uid)
+        .doc(auth.firebaseUser.value.uid)
         .collection('transactions')
         .orderBy('createdAt', descending: true)
         .snapshots()

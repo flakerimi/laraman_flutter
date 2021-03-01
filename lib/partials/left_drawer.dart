@@ -39,7 +39,8 @@ class LeftDrawer extends StatelessWidget {
             ),
             child: ListTile(
               selectedTileColor: Colors.amberAccent,
-              onTap: () => Get.to(UserTransactions()),
+              onTap: () => Get.to(UserTransactions(),
+                  transition: Transition.rightToLeft),
               leading: Icon(
                 Icons.transform,
                 color: Colors.white,
@@ -118,7 +119,8 @@ class LeftDrawer extends StatelessWidget {
                 "Shoqeria",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
-              onTap: () => Get.to(FriendsView()),
+              onTap: () =>
+                  Get.to(FriendsView(), transition: Transition.rightToLeft),
             ),
           ),
           Container(

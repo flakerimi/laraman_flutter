@@ -42,4 +42,19 @@ class UserLedger {
         createdAt: data['createdAt'],
         fromAmount: data['fromAmount']);
   }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['merchantId'] = this.merchantId;
+    data['merchantName'] = this.merchantName;
+    data['merchantLogo'] = this.merchantLogo;
+
+    data['branchId'] = this.branchId;
+    data['posId'] = this.posId;
+
+    data['description'] = this.description;
+    data['fromAmount'] = this.fromAmount;
+
+    data['createdAt'] = this.createdAt;
+    return data;
+  }
 }

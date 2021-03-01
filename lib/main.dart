@@ -6,16 +6,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'config/routes.dart';
 import 'modules/account/controllers/account_controller.dart';
-import 'modules/friendship/controllers/friendship_controller.dart';
-import 'modules/ledger/controllers/ledger_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
   Get.put<AccountController>(AccountController());
-  Get.put<LedgerController>(LedgerController());
-  Get.put<FriendController>(FriendController());
   runApp(Laraman());
 }
 
@@ -28,6 +24,12 @@ class Laraman extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'LARAMAN',
       theme: ThemeData(
+        iconTheme: IconThemeData(
+          color: Colors.indigo,
+          size: 11.2,
+        ),
+        accentIconTheme:
+            Theme.of(context).accentIconTheme.copyWith(color: Colors.indigo),
         primarySwatch: Colors.indigo,
         primaryTextTheme: TextTheme(
           headline6: TextStyle(
@@ -47,8 +49,12 @@ class Laraman extends StatelessWidget {
               ),
         ),
         appBarTheme: AppBarTheme(
-          color: Colors.indigo,
-        ),
+            textTheme: TextTheme(),
+            color: Colors.indigo,
+            iconTheme: IconThemeData(
+              color: Colors.indigo,
+              size: 11.2,
+            )),
       ),
       initialRoute: "/",
       getPages: AppRoutes.routes,

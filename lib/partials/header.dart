@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laraman/modules/home/views/index.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
@@ -8,8 +9,9 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: AppBar(
+        automaticallyImplyLeading: true,
         title: GestureDetector(
-          onTap: () => Get.toNamed('/home'),
+          onTap: () => Get.to(() => HomeView(), transition: Transition.fadeIn),
           child: Text(
             'LARAMAN',
             style: GoogleFonts.rubik(
@@ -21,7 +23,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        leading: Builder(
+        /*  leading: Builder(
           builder: (context) {
             return IconButton(
               icon: Icon(Icons.menu_sharp),
@@ -31,7 +33,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
               },
             );
           },
-        ),
+        ), */
         actions: <Widget>[
           Builder(
             builder: (context) {
