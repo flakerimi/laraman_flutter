@@ -1,16 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/http/friend_service.dart';
 import 'package:laraman/modules/friendship/models/friendship.dart';
 
 class FriendController extends GetxController {
   static FriendController to = Get.find();
-  Rx<List<Friend>> friends = Rx<List<Friend>>();
-
-  final status = 'accepted';
-  RxBool isLogged = false.obs;
-  Rx<User> firebaseUser = Rx<User>();
-  Rx<Friend> friend = Rx<Friend>();
+  final RxList isChecked = [].obs;
 
   Future<List<Friend>> getFriends() async {
     return await FriendService().getFriendsList();

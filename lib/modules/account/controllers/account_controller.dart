@@ -10,7 +10,6 @@ class AccountController extends GetxController {
   static AccountController to = Get.find();
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  RxBool isLogged = false.obs;
   Rx<User> firebaseUser = Rx<User>();
   Rx<Account> account = Rx<Account>();
 

@@ -8,7 +8,6 @@ class PaymentController extends GetxController {
   static PaymentController to = Get.find();
 
   addTransaction(Payment transaction, double balance) {
-    print('c' + balance.toString());
     return PaymentService().savePayment(transaction, balance);
   }
 
