@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laraman/modules/payment/models/Payment.dart';
+import 'package:laraman/modules/payment/models/payment.dart';
 import 'package:laraman/modules/payment/models/user_payment.dart';
 
 class PaymentService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final FirebaseAuth auth = FirebaseAuth.instance;
+
   savePayment(Payment payment, double balance) {
     var batch = _db.batch();
     print(payment.customerId);
@@ -33,7 +35,8 @@ class PaymentService {
       "fromNetAmount": payment.netAmount,
       "createdAt": DateTime.now(),
     });
-    print(payment.customerId);
+    print(payment.amount);
+    print(balance);
     var balanceRef = _db.collection('users').doc(payment.customerId);
 
     batch.update(balanceRef, {"balance": (balance - payment.amount)});
@@ -71,21 +74,14 @@ class PaymentService {
         );
   }
 
-  Stream<List<UserPayment>> getUserTransactions() {
-    FirebaseAuth auth = FirebaseAuth.instance;
-
-    return _db
+  Future<List<UserPayment>> getUserTransactions() async {
+    QuerySnapshot qShot = await _db
         .collection('users')
         .doc(auth.currentUser.uid)
         .collection('transactions')
         .orderBy('createdAt', descending: true)
-        .snapshots()
-        .map((QuerySnapshot qShot) {
-      List<UserPayment> retVal = List();
-      qShot.docs.forEach((element) {
-        retVal.add(UserPayment.documentSnapshot(element));
-      });
-      return retVal;
-    });
+        .get();
+
+    return qShot.docs.map((doc) => UserPayment.fromMap(doc.data())).toList();
   }
 }

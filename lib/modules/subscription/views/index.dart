@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/subscription/controllers/subscription_controller.dart';
@@ -45,27 +46,39 @@ class SubscriptionView extends StatelessWidget {
                 Spacer(),
               ],
             ),
+            Divider(),
             FutureBuilder<List<Subscription>>(
               future: _refreshData(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return RefreshIndicator(
-                    color: Colors.green,
-                    onRefresh: _refreshData,
-                    child: ListView(
+                  return ListView.builder(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
-                      padding: EdgeInsets.all(0.0),
-                      children: snapshot.data.map((doc) {
-                        print(doc.toJson());
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        var data = snapshot.data;
+                        print(data[index].customerLastName);
                         return ListTile(
-                          title: Text(doc.subscriptionName ?? 'ee'),
-                          subtitle: Text(doc.subscriptionDescription ?? 'eew'),
-                          // trailing: Text(doc.subscriptionPrice.toString() ? 'ee'),
+                          contentPadding: EdgeInsets.all(0),
+                          leading: Hero(
+                            tag: "logo" + index.toString(),
+                            child: CachedNetworkImage(
+                              height: 150,
+                              imageUrl: data[index].merchantBusinessLogo,
+                            ),
+                          ),
+                          title: Text(
+                            data[index].merchantBusinessName,
+                            style: TextStyle(fontSize: 20),
+                          ),
+                          subtitle: Text(data[index].subscriptionDescription),
+                          trailing: IconButton(
+                            onPressed: () {},
+                            color: Colors.red,
+                            icon: Icon(Icons.delete),
+                          ),
                         );
-                      }).toList(),
-                    ),
-                  );
+                      });
                 } else if (snapshot.hasError) {
                   return Text('Its Error! Refresh');
                 } else {

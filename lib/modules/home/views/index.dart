@@ -1,12 +1,13 @@
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laraman/helpers/global.dart';
-import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/merchant/controller/merchant_controller.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/account/controllers/account_controller.dart';
+import 'package:laraman/modules/payment/models/payment.dart';
+import 'package:laraman/modules/payment/views/payment.dart';
 import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
@@ -21,22 +22,19 @@ class HomeView extends StatelessWidget {
       var scanResults = await Helper().scan();
       //print(scanResults);
       var scanData = await Helper().stringToUri(scanResults);
-      //print(scanData.queryParameters);
-
+      print(scanData.queryParameters);
+      double amount = double.parse(scanData.queryParameters['amount']);
       Merchant merchant = await MerchantController()
           .getMerchant(scanData.queryParameters['merchantId']);
 
       //$newprice = $price * ((100-$amount) / 100);
-      double laramanAmount =
-          double.parse(scanData.queryParameters['amount']) * merchant.feeDouble;
+      double laramanAmount = amount * merchant.feeDouble;
 
-      double netAmount = double.parse(scanData.queryParameters['amount']) -
-          (double.parse(scanData.queryParameters['amount']) *
-              merchant.feeDouble);
+      double netAmount = amount - (amount * merchant.feeDouble);
       String fullName = accountController.account.value.firstName +
           ' ' +
           accountController.account.value.lastName;
-      var transaction = Ledger(
+      var transaction = Payment(
         scanData.queryParameters['merchantId'],
         merchant.businessName,
         merchant.logo,
@@ -53,7 +51,7 @@ class HomeView extends StatelessWidget {
         accountController.account.value.phoneNumber,
         accountController.account.value.email ?? ' ',
         scanData.queryParameters['description'],
-        double.parse(scanData.queryParameters['amount']),
+        amount,
         merchant.feeDouble,
         merchant.feeString,
         laramanAmount,
@@ -63,10 +61,16 @@ class HomeView extends StatelessWidget {
         DateTime.now(),
       );
 
-      if (accountController.account.value.balance >=
-          double.parse(scanData.queryParameters['amount'])) {
-        await Helper().showPaymentBottomSheet(context, merchant, transaction,
-            accountController.account.value.balance);
+      if (accountController.account.value.balance >= amount) {
+        Get.to(
+            () => PaymentView(
+                  merchant: merchant,
+                  transaction: transaction,
+                  balance: accountController.account.value.balance,
+                ),
+            arguments: [
+              context,
+            ]);
       } else {
         Get.defaultDialog(
             title: 'Not enough funds!',

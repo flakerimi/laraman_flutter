@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/views/index.dart';
-import 'package:laraman/modules/ledger/views/user_transactions.dart';
+import 'package:laraman/modules/payment/views/user_payments.dart';
 import 'package:laraman/modules/subscription/views/index.dart';
 
 class LeftDrawer extends StatelessWidget {
@@ -41,7 +41,7 @@ class LeftDrawer extends StatelessWidget {
               ),
               child: ListTile(
                 selectedTileColor: Colors.amberAccent,
-                onTap: () => Get.to(UserTransactions()),
+                onTap: () => Get.to(() => UserPaymentsView()),
                 leading: Icon(
                   Icons.transform,
                   color: Colors.white,

@@ -6,13 +6,16 @@ import 'package:get/get.dart';
 import 'package:laraman/modules/ledger/controllers/ledger_controller.dart';
 import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
+import 'package:laraman/modules/payment/models/payment.dart';
 
 class PaymentView extends StatelessWidget {
+  PaymentView({Merchant merchant, Payment transaction, double balance});
   // final merchant = data[0];
   final LedgerController ledger = Get.find<LedgerController>();
-
+  final args = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    print(args);
     Merchant merchant = Get.arguments[0];
     Ledger transaction = Get.arguments[1];
     makePayment(payment) async {

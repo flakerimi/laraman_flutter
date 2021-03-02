@@ -42,4 +42,14 @@ class UserPayment {
         createdAt: data['createdAt'],
         fromAmount: data['fromAmount']);
   }
+  Map<String, dynamic> toJson() => {
+        "branchId": branchId,
+        "merchantId": merchantId,
+        "merchantName": merchantName,
+        "merchantLogo": merchantLogo,
+        "description": description,
+        "posId": posId,
+        "createdAt": createdAt,
+        "fromAmount": fromAmount,
+      };
 }

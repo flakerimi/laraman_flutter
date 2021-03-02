@@ -3,44 +3,35 @@ import 'dart:async';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laraman/modules/ledger/controllers/ledger_controller.dart';
-import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
+import 'package:laraman/modules/payment/controllers/payment_controller.dart';
+import 'package:laraman/modules/payment/models/payment.dart';
+import 'package:laraman/partials/header.dart';
 
 class PaymentView extends StatelessWidget {
-  // final merchant = data[0];
+  PaymentView({this.merchant, this.balance, this.transaction});
+
+  final double balance;
+  final Payment transaction;
+  final Merchant merchant;
+
+// final merchant = data[0];
   @override
   Widget build(BuildContext context) {
-    Merchant merchant = Get.arguments[0];
-    Ledger transaction = Get.arguments[1];
-    makePayment(payment) async {
-      await LedgerController().addTransaction(transaction, transaction.amount);
+    makePayment(Payment payment, double balance) async {
       Get.back();
-      Get.defaultDialog(
-          title: "Thank you",
-          content: Column(
-            children: [
-              Image.asset('assets/images/check.png'),
-              Text('Your payment has been processed or something')
-            ],
-          ));
-      Timer.periodic(Duration(seconds: 3), (_) {
-        Get.back();
-      });
+      await PaymentController().addTransaction(payment, balance);
     }
 
-    return Container(
-      width: 400,
-      height: 400,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(30), topRight: Radius.circular(30)),
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(color: Colors.green, spreadRadius: 3),
-        ],
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: myPopMenu(),
+        onPressed: () {
+          return myPopMenu();
+        },
       ),
-      child: Column(
+      appBar: Header(),
+      body: Column(
         children: [
           Row(
             children: [
@@ -52,13 +43,6 @@ class PaymentView extends StatelessWidget {
                     CircularProgressIndicator(value: downloadProgress.progress),
                 errorWidget: (context, url, error) => Icon(Icons.error),
               ),
-
-              /* CircleAvatar(
-                           radius: 50,
-                           backgroundImage: NetworkImage(
-                             merchant.logo,
-                           ),
-                         ), */
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
@@ -72,9 +56,18 @@ class PaymentView extends StatelessWidget {
                     Text(merchant.businessNumber),
                   ],
                 ),
+              ),
+              Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  'Pagesë',
+                  style: TextStyle(fontSize: 30),
+                ),
               )
             ],
           ),
+          Spacer(),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -92,29 +85,64 @@ class PaymentView extends StatelessWidget {
               )
             ],
           ),
-          VerticalDivider(),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              VerticalDivider(),
-              ElevatedButton(
-                onPressed: () {
-                  makePayment(transaction.toJson());
-                },
-                style: ElevatedButton.styleFrom(
-                  padding:
-                      EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
-                  primary: Colors.greenAccent,
-                ),
-                child: Text(
-                  "Confirm",
-                  style: TextStyle(fontSize: 30),
-                ),
-              ),
-            ],
-          )
+          Spacer(),
+          Spacer(),
+          ElevatedButton(
+            onPressed: () {
+              makePayment(transaction, balance);
+            },
+            style: ElevatedButton.styleFrom(
+              padding:
+                  EdgeInsets.only(left: 30, right: 30, top: 10, bottom: 10),
+              primary: Colors.limeAccent.shade700,
+            ),
+            child: Text(
+              "Paguaj",
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+          Spacer(),
         ],
       ),
     );
   }
+}
+
+Widget myPopMenu() {
+  return PopupMenuButton(
+      itemBuilder: (context) => [
+            PopupMenuItem(
+                value: 1,
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                      child: Icon(Icons.print),
+                    ),
+                    Text('Ndaje pagesen me shoke')
+                  ],
+                )),
+            PopupMenuItem(
+                value: 2,
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                      child: Icon(Icons.share),
+                    ),
+                    Text('Paguaj me keste')
+                  ],
+                )),
+            PopupMenuItem(
+                value: 3,
+                child: Row(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
+                      child: Icon(Icons.add_circle),
+                    ),
+                    Text('Dergoja pagesen shokut')
+                  ],
+                )),
+          ]);
 }

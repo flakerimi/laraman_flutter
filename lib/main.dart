@@ -28,8 +28,6 @@ class Laraman extends StatelessWidget {
           color: Colors.indigo,
           size: 11.2,
         ),
-        accentIconTheme:
-            Theme.of(context).accentIconTheme.copyWith(color: Colors.indigo),
         primarySwatch: Colors.indigo,
         primaryTextTheme: TextTheme(
           headline6: TextStyle(
