@@ -8,7 +8,7 @@ import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
-class SubscriptionView extends StatelessWidget {
+class SubscriptionIndex extends StatelessWidget {
   Future<List<Subscription>> _refreshData() async {
     return await SubscriptionController().getMySubscriptions();
     //_data.clear();
@@ -47,46 +47,48 @@ class SubscriptionView extends StatelessWidget {
               ],
             ),
             Divider(),
-            FutureBuilder<List<Subscription>>(
-              future: _refreshData(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (context, index) {
-                        var data = snapshot.data;
-                        print(data[index].customerLastName);
-                        return ListTile(
-                          contentPadding: EdgeInsets.all(0),
-                          leading: Hero(
-                            tag: "logo" + index.toString(),
-                            child: CachedNetworkImage(
-                              height: 150,
-                              imageUrl: data[index].merchantBusinessLogo,
+            Expanded(
+              child: FutureBuilder<List<Subscription>>(
+                future: _refreshData(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          var data = snapshot.data;
+                          return ListTile(
+                            contentPadding: EdgeInsets.all(0),
+                            leading: Hero(
+                              tag: "logo" + index.toString(),
+                              child: CachedNetworkImage(
+                                width: 150,
+                                height: 150,
+                                imageUrl: data[index].merchantBusinessLogo,
+                              ),
                             ),
-                          ),
-                          title: Text(
-                            data[index].merchantBusinessName,
-                            style: TextStyle(fontSize: 20),
-                          ),
-                          subtitle: Text(data[index].subscriptionDescription),
-                          trailing: IconButton(
-                            onPressed: () {},
-                            color: Colors.red,
-                            icon: Icon(Icons.delete),
-                          ),
-                        );
-                      });
-                } else if (snapshot.hasError) {
-                  return Text('Its Error! Refresh');
-                } else {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
+                            title: Text(
+                              data[index].merchantBusinessName,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            subtitle: Text(data[index].subscriptionDescription),
+                            trailing: IconButton(
+                              onPressed: () {},
+                              color: Colors.green,
+                              icon: Icon(Icons.keyboard_arrow_right),
+                            ),
+                          );
+                        });
+                  } else if (snapshot.hasError) {
+                    return Text('Its Error! Refresh');
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
           ],
         ),

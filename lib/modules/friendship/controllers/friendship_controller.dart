@@ -15,8 +15,8 @@ class FriendController extends GetxController {
   }
 
   static makeRequest(_phoneController) async {
-    var message = await FriendService().sendFriendRequest(_phoneController);
+    await FriendService().sendFriendRequest(_phoneController);
     Get.back();
-    print(message);
+    print(_phoneController.text);
   }
 }

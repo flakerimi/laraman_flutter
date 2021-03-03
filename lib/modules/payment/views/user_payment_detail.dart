@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UserPaymentDetailView extends StatelessWidget {
+class UserPaymentDetailIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;
-    print(args);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,

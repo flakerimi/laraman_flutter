@@ -7,7 +7,7 @@ import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
-class UserPaymentsView extends StatelessWidget {
+class UserPaymentsIndex extends StatelessWidget {
   Future<List<UserPayment>> _loadTransactions() async {
     return await PaymentController().getUserTransactions();
     //_data.clear();
@@ -35,48 +35,49 @@ class UserPaymentsView extends StatelessWidget {
                 ],
               ),
               Divider(),
-              FutureBuilder<List<UserPayment>>(
-                future: _loadTransactions(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return ListView.builder(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          var data = snapshot.data;
-                          print(data[index].merchantId);
-                          return ListTile(
-                            leading: Hero(
-                              tag: "logo" + index.toString(),
-                              child: Image.network(data[index].merchantLogo),
-                            ),
-                            title: Text(
-                              '${data[index].merchantName}',
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            subtitle: Text('${data[index].description}'),
-                            trailing: Text(
-                              "${data[index].fromAmount.toString()}€",
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            onTap: () => Get.to(
-                              () => UserPaymentDetailView(),
-                              arguments: {
-                                "index": index,
-                                "data": data[index].toJson()
-                              },
-                            ),
-                          );
-                        });
-                  } else if (snapshot.hasError) {
-                    return Text('Its Error! Refresh');
-                  } else {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
+              Expanded(
+                child: FutureBuilder<List<UserPayment>>(
+                  future: _loadTransactions(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                          scrollDirection: Axis.vertical,
+                          shrinkWrap: true,
+                          itemCount: snapshot.data.length,
+                          itemBuilder: (context, index) {
+                            var data = snapshot.data;
+                            return ListTile(
+                              leading: Hero(
+                                tag: "logo" + index.toString(),
+                                child: Image.network(data[index].merchantLogo),
+                              ),
+                              title: Text(
+                                '${data[index].merchantName}',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              subtitle: Text('${data[index].description}'),
+                              trailing: Text(
+                                "${data[index].fromAmount.toString()}€",
+                                style: TextStyle(fontSize: 30),
+                              ),
+                              onTap: () => Get.to(
+                                () => UserPaymentDetailIndex(),
+                                arguments: {
+                                  "index": index,
+                                  "data": data[index].toJson()
+                                },
+                              ),
+                            );
+                          });
+                    } else if (snapshot.hasError) {
+                      return Text('Its Error! Refresh');
+                    } else {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
               ),
             ],
           ),

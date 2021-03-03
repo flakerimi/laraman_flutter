@@ -43,7 +43,7 @@ class UserTransactions extends StatelessWidget {
                           "${controller.trans.value[index].fromAmount.toString()}€",
                           style: TextStyle(fontSize: 30, color: Colors.indigo),
                         ),
-                        onTap: () => Get.to(() => UserTransactionDetailView(),
+                        onTap: () => Get.to(() => UserTransactionDetailIndex(),
                             arguments: {
                               "index": index,
                               "data": controller.trans.value[index].toJson()

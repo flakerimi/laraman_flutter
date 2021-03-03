@@ -6,7 +6,7 @@ import 'package:laraman/partials/header.dart';
 
 import 'edit_profile.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isSwitched = false;

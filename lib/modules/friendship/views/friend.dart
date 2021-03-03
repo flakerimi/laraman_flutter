@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-class FriendView extends StatelessWidget {
+class FriendIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;

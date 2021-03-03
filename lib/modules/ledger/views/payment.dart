@@ -8,8 +8,8 @@ import 'package:laraman/modules/ledger/models/ledger.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
 import 'package:laraman/modules/payment/models/payment.dart';
 
-class PaymentView extends StatelessWidget {
-  PaymentView({Merchant merchant, Payment transaction, double balance});
+class PaymentIndex extends StatelessWidget {
+  PaymentIndex({Merchant merchant, Payment transaction, double balance});
   // final merchant = data[0];
   final LedgerController ledger = Get.find<LedgerController>();
   final args = Get.arguments;

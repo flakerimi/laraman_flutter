@@ -13,7 +13,7 @@ import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class HomeView extends StatelessWidget {
+class HomeIndex extends StatelessWidget {
   final AccountController accountController = AccountController.to;
 
   scanButton(context) async {
@@ -63,7 +63,7 @@ class HomeView extends StatelessWidget {
 
       if (accountController.account.value.balance >= amount) {
         Get.to(
-            () => PaymentView(
+            () => PaymentIndex(
                   merchant: merchant,
                   transaction: transaction,
                   balance: accountController.account.value.balance,
@@ -96,7 +96,7 @@ class HomeView extends StatelessWidget {
               ));
     }
     // Get.to(
-    //   () => PaymentView(),
+    //   () => PaymentIndex(),
     //   arguments: [merchant, transaction],
     // );
   }

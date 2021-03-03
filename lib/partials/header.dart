@@ -11,7 +11,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
       child: AppBar(
         automaticallyImplyLeading: true,
         title: GestureDetector(
-          onTap: () => Get.to(() => HomeView(), transition: Transition.fadeIn),
+          onTap: () => Get.to(() => HomeIndex(), transition: Transition.fadeIn),
           child: Text(
             'LARAMAN',
             style: GoogleFonts.rubik(

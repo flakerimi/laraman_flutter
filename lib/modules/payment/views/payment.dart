@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,8 +7,8 @@ import 'package:laraman/modules/payment/models/payment.dart';
 import 'package:laraman/modules/payment/views/split_payment.dart';
 import 'package:laraman/partials/header.dart';
 
-class PaymentView extends StatelessWidget {
-  PaymentView({this.merchant, this.balance, this.transaction});
+class PaymentIndex extends StatelessWidget {
+  PaymentIndex({this.merchant, this.balance, this.transaction});
 
   final double balance;
   final Payment transaction;

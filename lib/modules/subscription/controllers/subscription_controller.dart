@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/subscription/http/subscription_service.dart';
 import 'package:laraman/modules/subscription/models/subscription.dart';

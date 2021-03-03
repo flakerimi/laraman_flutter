@@ -83,7 +83,7 @@ class EditProfile extends StatelessWidget {
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Get.to(SettingsView());
+                      Get.to(SettingsIndex());
                     },
                     child: Text('Done'))
               ],

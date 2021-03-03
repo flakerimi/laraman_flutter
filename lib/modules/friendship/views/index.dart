@@ -8,7 +8,7 @@ import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
-class FriendsView extends StatelessWidget {
+class FriendsIndex extends StatelessWidget {
   final FriendController controller =
       Get.put<FriendController>(FriendController());
   Future<List<Friend>> _refreshData() async {
@@ -54,6 +54,7 @@ class FriendsView extends StatelessWidget {
                           title: 'Add New Friend',
                           content: TextFormField(
                             controller: _phoneController,
+                            keyboardType: TextInputType.phone,
                             decoration: InputDecoration(
                                 labelText: 'Enter friend phone',
                                 hintText: '+38349000222'),
@@ -87,7 +88,7 @@ class FriendsView extends StatelessWidget {
                               title: Text(doc.firstName + ' ' + doc.lastName),
                               subtitle: Text(doc.phoneNumber),
                               trailing: Icon(Icons.account_box),
-                              onTap: () => Get.to(FriendView(),
+                              onTap: () => Get.to(FriendIndex(),
                                   transition: Transition.rightToLeft,
                                   arguments: doc.toJson()),
                             ),

@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laraman/modules/account/controllers/account_controller.dart';
 
-class LoginView extends StatelessWidget {
+class Login extends StatelessWidget {
   final _phoneController = TextEditingController();
   final _codeController = TextEditingController();
   final myFocusNode = FocusNode();

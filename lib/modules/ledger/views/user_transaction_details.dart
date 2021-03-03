@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class UserTransactionDetailView extends StatelessWidget {
+class UserTransactionDetailIndex extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var args = Get.arguments;

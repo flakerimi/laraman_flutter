@@ -7,7 +7,7 @@ import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
-class SubscriptionView extends StatelessWidget {
+class SubscriptionIndex extends StatelessWidget {
   Future<List<Subscription>> _refreshData() async {
     return await SubscriptionController().getMySubscriptions();
     //_data.clear();

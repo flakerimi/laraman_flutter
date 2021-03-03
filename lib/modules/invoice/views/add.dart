@@ -8,7 +8,7 @@ import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
-class SubscriptionAddView extends StatelessWidget {
+class SubscriptionAddIndex extends StatelessWidget {
   final Merchant merchant = Get.arguments;
 
   Future<List<Merchant>> _refreshData() async {
