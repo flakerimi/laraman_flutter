@@ -20,9 +20,17 @@ class AccountController extends GetxController {
     firebaseUser.value = await getUser;
     firebaseUser.bindStream(user);
 
-    Get.put<LedgerController>(LedgerController());
+    // Get.put<LedgerController>(LedgerController());
 
     super.onReady();
+  }
+
+  Future<Account> getAccountByUid(uid) async {
+    return _db
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((snapshot) => Account.fromMap(snapshot.data()));
   }
 
   Future<User> get getUser async => _auth.currentUser;

@@ -59,7 +59,7 @@ class ListAvaiableMerchants extends StatelessWidget {
                                 subtitle: Text(doc.uniqueIdentificationNumber),
                                 onTap: () {
                                   print(doc.uid);
-                                  Get.to(() => SubscriptionAddIndex(),
+                                  Get.to(() => SubscriptionAddView(),
                                       arguments: doc);
                                 }),
                           )

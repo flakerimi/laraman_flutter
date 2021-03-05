@@ -17,9 +17,16 @@ class UserPaymentDetailIndex extends StatelessWidget {
           children: [
             Hero(
               tag: "logo" + args['index'].toString(),
-              child: Image.network(args['data']['merchantLogo']),
+              child: Image.network(
+                args['data']['merchantLogo'],
+                width: 200,
+              ),
             ),
             Text(args['data']['merchantName']),
+            Text(
+              'Pagese',
+              style: TextStyle(fontSize: 20, color: Colors.indigo),
+            ),
             Hero(
               tag: "price" + args['index'].toString(),
               child: Text(

@@ -6,7 +6,7 @@ class Subscription {
   final String subscriptionDescription;
   final String subscriptionDurationString;
   final String subscriptionDurationTime;
-  final String subscriptionPrice;
+  final double subscriptionPrice;
   final String subscriptionCurrency;
   final Timestamp dateCreated;
   final Timestamp dateUpdated;

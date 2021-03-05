@@ -58,7 +58,7 @@ class ListAvaiableMerchants extends StatelessWidget {
                                 title: Text(doc.businessName.toString()),
                                 subtitle: Text(doc.uniqueIdentificationNumber),
                                 onTap: () {
-                                  Get.to(() => SubscriptionAddIndex(),
+                                  Get.to(() => SubscriptionAddView(),
                                       arguments: doc);
                                 }),
                           )

@@ -84,6 +84,7 @@ class PackageList extends StatelessWidget {
     this.price,
     this.durationTime,
     this.durationString,
+    this.pressed,
   }) : super(key: key);
 
   final Widget thumbnail;
@@ -92,6 +93,7 @@ class PackageList extends StatelessWidget {
   final String price;
   final String durationTime;
   final String durationString;
+  final Function pressed;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +120,7 @@ class PackageList extends StatelessWidget {
                 ),
               ),
               RaisedButton(
-                onPressed: () => {},
+                onPressed: pressed,
                 color: Colors.grey.shade800,
                 child: Text(
                   'Abonohu',

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
 import 'package:laraman/modules/payment/controllers/payment_controller.dart';
 import 'package:laraman/modules/payment/models/payment.dart';
-import 'package:laraman/modules/payment/views/split_payment.dart';
+import 'package:laraman/modules/payment/views/select_friends.dart';
 import 'package:laraman/partials/header.dart';
 
 class PaymentIndex extends StatelessWidget {
@@ -139,7 +139,7 @@ bottomSheet() async {
           leading: Icon(Icons.music_note),
           title: Text('Ndaje pagesen me shoke'),
           onTap: () => Get.to(
-            () => SplitPayment(),
+            () => SelectFriends(),
           ),
         ),
         ListTile(

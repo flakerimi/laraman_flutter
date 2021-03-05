@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/controllers/friendship_controller.dart';
 import 'package:laraman/modules/friendship/models/friendship.dart';
+import 'package:laraman/modules/payment/views/split.dart';
 import 'package:laraman/partials/header.dart';
 
-class SplitPayment extends StatelessWidget {
-  final FriendController controller = Get.find<FriendController>();
+class SelectFriends extends StatelessWidget {
+  final FriendController controller =
+      Get.put<FriendController>(FriendController());
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,7 @@ class SplitPayment extends StatelessWidget {
       //_data.clear();
     }
 
+    controller.isChecked.clear();
     _refreshData();
     onSearchTextChanged(String text) async {
       _searchResult.clear();
@@ -34,8 +37,10 @@ class SplitPayment extends StatelessWidget {
       print('s' + _searchResult.toString());
     }
 
+    print(controller.isChecked.isBlank);
     return Scaffold(
       appBar: Header(),
+      floatingActionButton: addButton(),
       body: Column(
         children: [
           Container(
@@ -72,17 +77,23 @@ class SplitPayment extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: snapshot.data.length,
                       itemBuilder: (BuildContext context, int index) {
-                        return CheckboxListTile(
-                          title: Text(snapshot.data[index].firstName +
-                              ' ' +
-                              snapshot.data[index].lastName),
-                          subtitle: Text(snapshot.data[index].phoneNumber),
-                          onChanged: (value) {
-                            controller.isChecked[index].value =
-                                value.toString();
-                          },
-                          value: false,
-                        );
+                        return Obx(() => CheckboxListTile(
+                              title: Text(snapshot.data[index].firstName +
+                                  ' ' +
+                                  snapshot.data[index].lastName),
+                              subtitle: Text(snapshot.data[index].phoneNumber),
+                              onChanged: (value) {
+                                controller.setIsChecked(
+                                    snapshot.data[index].uid, value);
+                                controller.setCheckedData(
+                                    snapshot.data[index].uid,
+                                    snapshot.data[index]);
+                                //print(controller.checkedData);
+                              },
+                              value: controller
+                                      .isChecked[snapshot.data[index].uid] ??
+                                  false,
+                            ));
                       });
                 } else if (snapshot.hasError) {
                   return Text('Its Error! Refresh');
@@ -97,5 +108,19 @@ class SplitPayment extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget addButton() {
+    // print(controller.isChecked.isBlank);
+    return Obx(() => (!controller.isChecked.isBlank)
+        ? FloatingActionButton(
+            onPressed: () {
+              print('super');
+              print(controller.checkedData);
+              Get.to(() => Split());
+            },
+            child: Text('ADDs'),
+          )
+        : Text(''));
   }
 }

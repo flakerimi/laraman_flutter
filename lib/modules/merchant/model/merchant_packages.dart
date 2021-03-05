@@ -32,4 +32,15 @@ class MerchantPackages {
         price: data['price'],
         currency: data['currency']);
   }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+
+    data['description'] = this.description;
+    data['durationString'] = this.durationString;
+    data['durationTime'] = this.durationTime;
+    data['name'] = this.name;
+    data['price'] = this.price;
+    data['currency'] = this.currency;
+    return data;
+  }
 }

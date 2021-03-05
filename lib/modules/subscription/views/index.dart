@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:laraman/modules/subscription/controllers/subscription_controller.dart';
 import 'package:laraman/modules/subscription/models/subscription.dart';
 import 'package:laraman/modules/subscription/views/list_avaiable_merchants.dart';
+import 'package:laraman/modules/subscription/views/view.dart';
 import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
@@ -52,33 +53,37 @@ class SubscriptionIndex extends StatelessWidget {
                 future: _refreshData(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
+                    print(snapshot);
                     return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           var data = snapshot.data;
+                          print(data[index].toJson());
                           return ListTile(
-                            contentPadding: EdgeInsets.all(0),
-                            leading: Hero(
-                              tag: "logo" + index.toString(),
-                              child: CachedNetworkImage(
-                                width: 150,
-                                height: 150,
-                                imageUrl: data[index].merchantBusinessLogo,
+                              contentPadding: EdgeInsets.all(0),
+                              leading: Hero(
+                                tag: "logo" + index.toString(),
+                                child: CachedNetworkImage(
+                                  width: 50,
+                                  height: 50,
+                                  imageUrl: data[index].merchantBusinessLogo,
+                                ),
                               ),
-                            ),
-                            title: Text(
-                              data[index].merchantBusinessName,
-                              style: TextStyle(fontSize: 20),
-                            ),
-                            subtitle: Text(data[index].subscriptionDescription),
-                            trailing: IconButton(
-                              onPressed: () {},
-                              color: Colors.green,
-                              icon: Icon(Icons.keyboard_arrow_right),
-                            ),
-                          );
+                              title: Text(
+                                data[index].merchantBusinessName,
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              subtitle:
+                                  Text(data[index].subscriptionDescription),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right,
+                                size: 30,
+                                color: Colors.indigo,
+                              ),
+                              onTap: () => Get.to(() => SubscriptionView(),
+                                  arguments: data[index]));
                         });
                   } else if (snapshot.hasError) {
                     return Text('Its Error! Refresh');

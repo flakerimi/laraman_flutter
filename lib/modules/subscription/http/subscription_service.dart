@@ -2,13 +2,18 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:laraman/modules/invoice/views/add.dart';
 import 'package:laraman/modules/subscription/models/subscription.dart';
+import 'package:laraman/modules/subscription/views/index.dart';
 
 class SubscriptionService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<List<Subscription>> getMySubscriptionsList() async {
+    print(auth.currentUser.uid);
     QuerySnapshot qShot = await _db
         .collection('users')
         .doc(auth.currentUser.uid)
@@ -38,38 +43,35 @@ class SubscriptionService {
     return qShot.docs.map((doc) => Subscription.fromMap(doc.data())).toList();
   }
 
-  sendSubscriptionRequest(phoneController) {
-    var fsUser = _db.collection('merchants');
+  sendSubscriptionRequest(Subscription data) {
+    var batch = _db.batch();
 
-    fsUser.where('phoneNumber', isEqualTo: phoneController).get().then((value) {
-      var snapshot = value.docs[0];
-      if (snapshot.exists) {
-        var id = snapshot.id;
-        var data = snapshot.data();
-        var fo = Subscription.fromMap(data);
-        print(fo.toJson());
-        Subscription friend = Subscription(
-          status: 'requested',
-          customerFirstName: fo.customerFirstName,
-          customerLastName: fo.customerLastName,
-          dateCreated: Timestamp.now(),
-          dateUpdated: Timestamp.now(),
-          merchantUid: fo.merchantUid,
-          customerUid: id,
-        );
-        fsUser
-            .doc(auth.currentUser.uid)
-            .collection('friends')
-            .doc(id)
-            .set(friend.toJson());
-
-        return jsonDecode(
-            '{"status":"error","data":"User added successfully"}');
-      } else {
-        return jsonDecode(
-            '{"status":"error","data":"User Not found, check phone number or invite to Laraman"}');
-      }
+    var merchant = _db
+        .collection('merchants')
+        .doc(data.merchantUid)
+        .collection('subscriptions')
+        .doc();
+    batch.set(merchant, data.toJson());
+    var user = _db
+        .collection('users')
+        .doc(data.customerUid)
+        .collection('subscriptions')
+        .doc();
+    batch.set(user, data.toJson());
+    print("added");
+    return batch.commit().then((data) {
+      Get.snackbar(
+        "Thank You!",
+        "You have subscribed to merchant",
+        snackPosition: SnackPosition.BOTTOM,
+        messageText: Column(
+          children: [
+            Image.asset('assets/images/check.png'),
+            Text('Your payment has been processed or something')
+          ],
+        ),
+      );
+      Get.to(() => SubscriptionIndex());
     });
-    return "true";
   }
 }
