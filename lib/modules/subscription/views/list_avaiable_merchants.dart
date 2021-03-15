@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/merchant/controller/merchant_controller.dart';
@@ -50,13 +51,17 @@ class ListAvaiableMerchants extends StatelessWidget {
                       children: snapshot.data
                           .map(
                             (doc) => ListTile(
-                                // leading: CachedNetworkImage(
-                                //   width: 50,
-                                //   height: 50,
-                                //   imageUrl: doc.logo,
-                                // ),
+                                leading: CachedNetworkImage(
+                                  width: 50,
+                                  height: 50,
+                                  imageUrl: doc.logo,
+                                ),
                                 title: Text(doc.businessName.toString()),
                                 subtitle: Text(doc.uniqueIdentificationNumber),
+                                trailing: Icon(
+                                  Icons.keyboard_arrow_right_outlined,
+                                  size: 30,
+                                ),
                                 onTap: () {
                                   Get.to(() => SubscriptionAddView(),
                                       arguments: doc);

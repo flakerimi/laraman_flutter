@@ -65,10 +65,7 @@ class SubscriptionService {
         "You have subscribed to merchant",
         snackPosition: SnackPosition.BOTTOM,
         messageText: Column(
-          children: [
-            Image.asset('assets/images/check.png'),
-            Text('Your payment has been processed or something')
-          ],
+          children: [Text('Your payment has been processed or something')],
         ),
       );
       Get.to(() => SubscriptionIndex());
