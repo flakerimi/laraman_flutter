@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/friendship/models/friend.dart';
+import 'package:laraman/modules/friendship/views/send/request_money.dart';
+import 'package:laraman/modules/friendship/views/send/send_money.dart';
 
-class FriendIndex extends StatelessWidget {
+class FriendView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var args = Get.arguments;
+    Friend args = Get.arguments;
 
     return Scaffold(
       appBar: AppBar(
@@ -14,40 +17,39 @@ class FriendIndex extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            SvgPicture.string(
-              args['qrSvg'],
-            ),
-            Text(args['firstName'] + ' ' + args['lastName']),
-            Text(args['phoneNumber'] + ' / ' + args['email']),
-            SizedBox(
-              height: 50,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Spacer(),
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text('Send'),
-                ),
-                Spacer(),
-                ButtonTheme(
-                  minWidth: 200.0,
-                  height: 100.0,
-                  child: ElevatedButton(
-                    style: ButtonStyle(),
-                    onPressed: () {},
+        child: Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SvgPicture.string(
+                args.qrSvg,
+                height: 150,
+              ),
+              Text(args.firstName + ' ' + args.lastName),
+              Text(args.phoneNumber + ' / ' + args.email),
+              Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => Get.to(() => SendMoney(),
+                        arguments: args,
+                        transition: Transition.rightToLeftWithFade),
+                    child: Text('Send'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => Get.to(() => RequestMoney(),
+                        arguments: args,
+                        transition: Transition.rightToLeftWithFade),
                     child: Text('Request'),
                   ),
-                ),
-                Spacer(),
-              ],
-            ),
-            Text('')
-          ],
+                ],
+              ),
+              Spacer(),
+            ],
+          ),
         ),
       ),
     );

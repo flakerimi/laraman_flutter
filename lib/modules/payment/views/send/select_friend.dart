@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/controllers/friendship_controller.dart';
-import 'package:laraman/modules/friendship/models/friendship.dart';
-import 'package:laraman/modules/payment/views/split.dart';
+import 'package:laraman/modules/friendship/models/friend.dart';
+import 'package:laraman/modules/payment/models/payment.dart';
+import 'package:laraman/modules/payment/views/send/send_request.dart';
 import 'package:laraman/partials/header.dart';
 
-class SelectFriends extends StatelessWidget {
+class SelectFriend extends StatelessWidget {
   final FriendController controller =
       Get.put<FriendController>(FriendController());
+
+  final Payment payment = Get.arguments;
+  final isChecked = false.obs;
+  final Rx<Friend> selectedUser = Friend().obs;
+
+  setSelectedUser(Friend user) {
+    selectedUser.value = user;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +30,7 @@ class SelectFriends extends StatelessWidget {
       //_data.clear();
     }
 
-    controller.isChecked.clear();
+    //controller.isChecked.clear();
     _refreshData();
     onSearchTextChanged(String text) async {
       _searchResult.clear();
@@ -37,7 +46,6 @@ class SelectFriends extends StatelessWidget {
       print('s' + _searchResult.toString());
     }
 
-    print(controller.isChecked.isBlank);
     return Scaffold(
       appBar: Header(),
       floatingActionButton: addButton(),
@@ -73,28 +81,26 @@ class SelectFriends extends StatelessWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return Obx(() => CheckboxListTile(
-                              title: Text(snapshot.data[index].firstName +
-                                  ' ' +
-                                  snapshot.data[index].lastName),
-                              subtitle: Text(snapshot.data[index].phoneNumber),
-                              onChanged: (value) {
-                                controller.setIsChecked(
-                                    snapshot.data[index].uid, value);
-                                controller.setCheckedData(
-                                    snapshot.data[index].uid,
-                                    snapshot.data[index]);
-                                //print(controller.checkedData);
-                              },
-                              value: controller
-                                      .isChecked[snapshot.data[index].uid] ??
-                                  false,
-                            ));
-                      });
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Obx(
+                        () => RadioListTile(
+                          value: snapshot.data[index],
+                          groupValue: selectedUser.value,
+                          title: Text(snapshot.data[index].firstName),
+                          subtitle: Text(snapshot.data[index].lastName),
+                          onChanged: (currentUser) {
+                            print("Current User ${currentUser.firstName}");
+                            setSelectedUser(currentUser);
+                          },
+                          selected: selectedUser.value == snapshot.data[index],
+                          activeColor: Colors.green,
+                        ),
+                      );
+                    },
+                  );
                 } else if (snapshot.hasError) {
                   return Text('Its Error! Refresh');
                 } else {
@@ -111,16 +117,22 @@ class SelectFriends extends StatelessWidget {
   }
 
   Widget addButton() {
-    // print(controller.isChecked.isBlank);
-    return Obx(() => (!controller.isChecked.isBlank)
-        ? FloatingActionButton(
-            onPressed: () {
-              print('super');
-              print(controller.checkedData);
-              Get.to(() => Split());
-            },
-            child: Text('ADDs'),
-          )
-        : Text(''));
+    return Obx(() {
+      print('data blank: ' + selectedUser.isBlank.toString());
+      print('data : ' + selectedUser.toString());
+      return (!selectedUser.isBlank)
+          ? FloatingActionButton(
+              onPressed: () {
+                print('super');
+                print(selectedUser);
+                Get.to(() => SendPaymentRequest(), arguments: {
+                  "friend": selectedUser.value,
+                  "payment": payment
+                });
+              },
+              child: Text('ADDs'),
+            )
+          : Text(selectedUser.toString());
+    });
   }
 }

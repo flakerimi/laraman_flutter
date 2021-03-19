@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/controllers/friendship_controller.dart';
-import 'package:laraman/modules/friendship/models/friendship.dart';
+import 'package:laraman/modules/friendship/models/friend.dart';
 import 'package:laraman/modules/friendship/views/friend.dart';
 import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
@@ -59,7 +59,8 @@ class FriendsIndex extends StatelessWidget {
                                 labelText: 'Enter friend phone',
                                 hintText: '+38349000222'),
                           ));
-                    })
+                    }),
+                IconButton(icon: Icon(Icons.turned_in), onPressed: () {}),
               ],
             ),
           ),
@@ -88,9 +89,9 @@ class FriendsIndex extends StatelessWidget {
                               title: Text(doc.firstName + ' ' + doc.lastName),
                               subtitle: Text(doc.phoneNumber),
                               trailing: Icon(Icons.account_box),
-                              onTap: () => Get.to(FriendIndex(),
+                              onTap: () => Get.to(FriendView(),
                                   transition: Transition.rightToLeft,
-                                  arguments: doc.toJson()),
+                                  arguments: doc),
                             ),
                           )
                           .toList(),

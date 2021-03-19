@@ -4,8 +4,11 @@ import 'package:get/get.dart';
 import 'package:laraman/modules/merchant/model/merchant.dart';
 import 'package:laraman/modules/payment/controllers/payment_controller.dart';
 import 'package:laraman/modules/payment/models/payment.dart';
-import 'package:laraman/modules/payment/views/select_friends.dart';
+import 'package:laraman/modules/payment/views/send/select_friend.dart';
+import 'package:laraman/modules/payment/views/split/select_friends.dart';
 import 'package:laraman/partials/header.dart';
+
+import 'installment/select_installement.dart';
 
 class PaymentIndex extends StatelessWidget {
   PaymentIndex({this.merchant, this.balance, this.transaction});
@@ -109,7 +112,7 @@ class PaymentIndex extends StatelessWidget {
               TextButton(
                 child: Icon(Icons.more_vert),
                 onPressed: () {
-                  return bottomSheet();
+                  return bottomSheet(transaction);
                 },
               ),
             ],
@@ -121,7 +124,7 @@ class PaymentIndex extends StatelessWidget {
   }
 }
 
-bottomSheet() async {
+bottomSheet(Payment payment) async {
   return await Get.bottomSheet(Container(
     width: double.infinity,
     padding: EdgeInsets.only(top: 20),
@@ -138,66 +141,25 @@ bottomSheet() async {
         ListTile(
           leading: Icon(Icons.music_note),
           title: Text('Ndaje pagesen me shoke'),
-          onTap: () => Get.to(
-            () => SelectFriends(),
-          ),
+          onTap: () => Get.to(() => SelectFriends(), arguments: payment),
         ),
         ListTile(
           leading: Icon(Icons.videocam),
           title: Text('Dergoja pagesen shokut'),
-          onTap: () => {},
+          onTap: () => Get.to(() => SelectFriend(), arguments: payment),
           tileColor: Colors.white38,
         ),
         ListTile(
           leading: Icon(Icons.videocam),
           title: Text('Paguaj me keste'),
-          onTap: () => {},
+          onTap: () => Get.to(() => SelectInstallment(), arguments: payment),
         ),
         ListTile(
           leading: Icon(Icons.videocam),
-          title: Text('Boni 3 sallta'),
+          title: Text('Shake'),
           onTap: () => {},
         ),
       ],
     ),
   ));
-}
-
-Widget myPopMenu() {
-  return PopupMenuButton(
-      itemBuilder: (context) => [
-            PopupMenuItem(
-                value: 1,
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                      child: Icon(Icons.people),
-                    ),
-                    Text('Ndaje pagesen me shoke')
-                  ],
-                )),
-            PopupMenuItem(
-                value: 2,
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                      child: Icon(Icons.account_tree_outlined),
-                    ),
-                    Text('Paguaj me keste')
-                  ],
-                )),
-            PopupMenuItem(
-                value: 3,
-                child: Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(2, 2, 8, 2),
-                      child: Icon(Icons.arrow_right_alt_outlined),
-                    ),
-                    Text('Dergoja pagesen shokut')
-                  ],
-                )),
-          ]);
 }

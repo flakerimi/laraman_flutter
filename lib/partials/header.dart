@@ -1,6 +1,8 @@
+import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:laraman/modules/announcement/view/index.dart';
 import 'package:laraman/modules/home/views/index.dart';
 
 class Header extends StatelessWidget implements PreferredSizeWidget {
@@ -15,14 +17,13 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
           child: Text(
             'LARAMAN',
             style: GoogleFonts.rubik(
-              fontSize: 33,
+              fontSize: 30,
               fontWeight: FontWeight.w500,
             ),
           ),
         ),
         backgroundColor: Colors.white,
         elevation: 0,
-        centerTitle: true,
         /*  leading: Builder(
           builder: (context) {
             return IconButton(
@@ -35,6 +36,18 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
           },
         ), */
         actions: <Widget>[
+          IconButton(
+            icon: Badge(
+              badgeColor: Colors.indigo,
+              badgeContent: Text(
+                '3',
+                style: TextStyle(fontSize: 10, color: Colors.white),
+              ),
+              child: Icon(Icons.notifications),
+            ),
+            color: Colors.indigo,
+            onPressed: () => Get.to(() => AnnouncementView()),
+          ),
           Builder(
             builder: (context) {
               return IconButton(
@@ -45,7 +58,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
                 },
               );
             },
-          )
+          ),
         ],
       ),
     );

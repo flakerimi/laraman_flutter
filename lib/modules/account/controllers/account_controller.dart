@@ -3,7 +3,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/account/models/account.dart';
-import 'package:laraman/modules/ledger/controllers/ledger_controller.dart';
 
 class AccountController extends GetxController {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -115,10 +114,8 @@ class AccountController extends GetxController {
         ],
       ),
       actions: <Widget>[
-        FlatButton(
+        ElevatedButton(
           child: Text("Confirm"),
-          textColor: Colors.indigo,
-          color: Colors.white,
           onPressed: () async {
             final code = _codeController.text;
             AuthCredential credential = PhoneAuthProvider.credential(

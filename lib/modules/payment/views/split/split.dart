@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:laraman/modules/friendship/controllers/friendship_controller.dart';
+import 'package:laraman/modules/home/views/index.dart';
+import 'package:laraman/modules/payment/models/payment.dart';
 import 'package:laraman/partials/header.dart';
 
 class Split extends StatelessWidget {
-  final FriendController controller =
-      Get.put<FriendController>(FriendController());
   final TextEditingController text = TextEditingController();
+  final args = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
+    Payment payment = args['payment'];
+    var friends = args['friends'].entries;
+    print(friends.length);
     return Scaffold(
       appBar: Header(),
       body: Container(
@@ -16,17 +20,18 @@ class Split extends StatelessWidget {
         color: Colors.white,
         alignment: Alignment.center,
         child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            GetX<FriendController>(
-              init: FriendController(),
-              initState: (_) {},
-              builder: (controller) {
+          children: [
+            Text('My Participation: ' +
+                (payment.amount / (friends.length + 1))
+                    .toPrecision(2)
+                    .toString()),
+            Obx(
+              () {
+                print('data: ' + args.toString());
                 return ListView(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
-                  children:
-                      controller.checkedData.entries.map<Widget>((friend) {
+                  children: args['friends'].entries.map<Widget>((friend) {
                     return Padding(
                       padding: EdgeInsets.all(20),
                       child: Row(
@@ -37,7 +42,11 @@ class Split extends StatelessWidget {
                             child: TextField(
                               controller: text,
                               decoration: InputDecoration(
-                                  border: OutlineInputBorder(), labelText: '1'),
+                                  border: OutlineInputBorder(),
+                                  labelText:
+                                      (payment.amount / (friends.length + 1))
+                                          .toPrecision(2)
+                                          .toString()),
                             ),
                           )
                         ],
@@ -47,6 +56,9 @@ class Split extends StatelessWidget {
                 );
               },
             ),
+            ElevatedButton(
+                onPressed: () => Get.to(() => HomeIndex()),
+                child: Text('Send Payment Request'))
           ],
         ),
       ),

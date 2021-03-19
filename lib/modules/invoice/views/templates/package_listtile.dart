@@ -117,9 +117,8 @@ class PackageList extends StatelessWidget {
                   durationString: durationString,
                 ),
               ),
-              RaisedButton(
+              ElevatedButton(
                 onPressed: () => {},
-                color: Colors.grey.shade800,
                 child: Text(
                   'Abonohu',
                   style: TextStyle(color: Colors.white),

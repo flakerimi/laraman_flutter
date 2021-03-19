@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laraman/helpers/global.dart';
@@ -15,16 +17,17 @@ import 'package:permission_handler/permission_handler.dart';
 
 class HomeIndex extends StatelessWidget {
   final AccountController accountController = AccountController.to;
+  final MerchantController merchantController = MerchantController.to;
 
   scanButton(context) async {
-    var status = await Permission.camera.status;
+    var status = await Permission.storage.status;
     if (status.isGranted) {
       var scanResults = await Helper().scan();
       //print(scanResults);
       var scanData = await Helper().stringToUri(scanResults);
       print(scanData.queryParameters);
       double amount = double.parse(scanData.queryParameters['amount']);
-      Merchant merchant = await MerchantController()
+      Merchant merchant = await merchantController
           .getMerchant(scanData.queryParameters['merchantId']);
 
       //$newprice = $price * ((100-$amount) / 100);
@@ -57,8 +60,8 @@ class HomeIndex extends StatelessWidget {
         laramanAmount,
         netAmount,
         'Processed',
-        DateTime.now(),
-        DateTime.now(),
+        Timestamp.now(),
+        Timestamp.now(),
       );
 
       if (accountController.account.value.balance >= amount) {
@@ -109,115 +112,153 @@ class HomeIndex extends StatelessWidget {
       drawer: LeftDrawer(),
       endDrawer: RightDrawer(),
       body: Center(
-        child: GetX<AccountController>(
-          builder: (_) {
-            return _.account.value == null
-                ? CircularProgressIndicator()
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        width: double.infinity,
-                        height: 200,
-                        padding: EdgeInsets.all(10),
-                        margin: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                            bottomLeft: Radius.circular(40),
+        child: Obx(
+          () => accountController.account.value == null
+              ? CircularProgressIndicator()
+              : Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      width: 400,
+                      height: 300.0,
+                      child: CarouselSlider(
+                        items: [
+                          BalanceCard(
+                            userData: accountController,
                           ),
-                          color: Colors.indigo,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                  bottomLeft: Radius.circular(40),
-                                ),
-                              ),
-                              child: SvgPicture.string(
-                                _.account?.value?.qrSvg,
-                                height: 90,
-                                width: 90,
-                                clipBehavior: Clip.none,
-                              ),
-                            ),
-                            VerticalDivider(),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(
-                                  '${_.account.value.firstName} ${_.account.value.lastName}',
-                                  style: GoogleFonts.rubik(
-                                      fontSize: 23, color: Colors.white),
-                                ),
-                                Divider(
-                                  height: 5,
-                                ),
-                                Text(
-                                  '${_.account.value.phoneNumber}  ',
-                                  style: GoogleFonts.rubik(
-                                      fontSize: 13, color: Colors.white),
-                                ),
-                                Divider(
-                                  height: 20,
-                                ),
-                                Text(
-                                  'CURRENT BALANCE',
-                                  style: GoogleFonts.rubik(
-                                      fontSize: 13, color: Colors.white),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      '${_.account.value.balance.toPrecision(2)}  ',
-                                      style: GoogleFonts.rubik(
-                                          fontSize: 30, color: Colors.white),
-                                    ),
-                                    Text(
-                                      '€ ',
-                                      style: GoogleFonts.rubik(
-                                          fontSize: 20, color: Colors.white),
-                                    ),
-                                  ],
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                          ProfileCard(
+                            userData: accountController,
+                          ),
+                          TopMerchantsCard(
+                            userData: accountController,
+                            merchantData: merchantController,
+                          ),
+                          ProfileCard(
+                            userData: accountController,
+                          ),
+                        ],
+                        options: CarouselOptions(
+                            autoPlay: false,
+                            enlargeCenterPage: true,
+                            aspectRatio: 2.0,
+                            height: 300,
+                            onPageChanged: (index, reason) {}),
                       ),
-                      Divider(
-                        height: 50,
+                    ),
+                    Divider(
+                      height: 50,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        print('scan');
+                        scanButton(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: CircleBorder(),
+                        padding: EdgeInsets.all(40),
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          print('scan');
-                          scanButton(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: CircleBorder(),
-                          padding: EdgeInsets.all(40),
-                        ),
-                        child: Text(
-                          "SCAN",
-                          style: TextStyle(fontSize: 30),
-                        ),
+                      child: Text(
+                        "SCAN",
+                        style: TextStyle(fontSize: 30),
                       ),
-                    ],
-                  );
-          },
+                    ),
+                    Divider()
+                  ],
+                ),
         ),
       ),
+    );
+  }
+}
+
+class BalanceCard extends StatelessWidget {
+  final AccountController userData;
+  const BalanceCard({
+    Key key,
+    this.userData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Card(
+        margin: EdgeInsets.all(10),
+        color: Colors.indigo,
+        child: Container(
+          width: 300,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                'CURRENT BALANCE',
+                style: GoogleFonts.rubik(fontSize: 13, color: Colors.white),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '${userData.account.value.balance.toPrecision(2)}  ',
+                    style: GoogleFonts.rubik(fontSize: 30, color: Colors.white),
+                  ),
+                  Text(
+                    '€ ',
+                    style: GoogleFonts.rubik(fontSize: 20, color: Colors.white),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ProfileCard extends StatelessWidget {
+  final AccountController userData;
+  const ProfileCard({
+    Key key,
+    this.userData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: SvgPicture.string(
+        userData.account?.value?.qrSvg,
+        height: 300,
+        width: 300,
+      ),
+    );
+  }
+}
+
+class TopMerchantsCard extends StatelessWidget {
+  final AccountController userData;
+  final MerchantController merchantData;
+  final newList = [].obs;
+
+  TopMerchantsCard({
+    Key key,
+    this.userData,
+    this.merchantData,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    Set da = {};
+    var top = merchantData.getTopThreeMerchants(userData.account?.value?.uid);
+    top.then((value) => {
+          value.map((e) {
+            da.add(e.merchantId);
+          })
+        });
+    print(da);
+    return Container(
+      child: Text(da.toString()),
     );
   }
 }

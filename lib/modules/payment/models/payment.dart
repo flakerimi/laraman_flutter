@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Payment {
   String merchantId;
   String merchantName;
@@ -21,8 +23,8 @@ class Payment {
   double laramanAmount;
   double netAmount;
   String status;
-  DateTime createdAt;
-  DateTime updateAt;
+  Timestamp createdAt;
+  Timestamp updateAt;
 
   Payment(
       this.merchantId,

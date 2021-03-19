@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:laraman/modules/friendship/models/friendship.dart';
+import 'package:laraman/modules/friendship/models/friend.dart';
 
 class FriendService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -69,5 +69,13 @@ class FriendService {
       }
     });
     return "true";
+  }
+
+  sendMoney(double amount) {
+    print(amount);
+  }
+
+  requestMoney(double amount) {
+    print(amount);
   }
 }
