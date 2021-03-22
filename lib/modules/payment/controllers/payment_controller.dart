@@ -13,4 +13,7 @@ class PaymentController extends GetxController {
 
   Future<List<UserPayment>> getUserTransactions() =>
       PaymentService().getUserTransactions();
+
+  Future<List<UserPayment>> getPaymentRequests(userId) =>
+      PaymentService().getPaymentRequests(userId);
 }

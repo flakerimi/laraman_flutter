@@ -1,6 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:laraman/helpers/global.dart';
 import 'package:laraman/modules/merchant/controller/merchant_controller.dart';
@@ -14,6 +13,8 @@ import 'package:laraman/partials/header.dart';
 import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:pretty_qr_code/pretty_qr_code.dart';
+import 'package:qr/qr.dart';
 
 class HomeIndex extends StatelessWidget {
   final AccountController accountController = AccountController.to;
@@ -134,9 +135,6 @@ class HomeIndex extends StatelessWidget {
                             userData: accountController,
                             merchantData: merchantController,
                           ),
-                          ProfileCard(
-                            userData: accountController,
-                          ),
                         ],
                         options: CarouselOptions(
                             autoPlay: false,
@@ -227,12 +225,14 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: SvgPicture.string(
-        userData.account?.value?.qrSvg,
-        height: 300,
-        width: 300,
-      ),
-    );
+        child: PrettyQr(
+            image: AssetImage('assets/images/l.png'),
+            typeNumber: 3,
+            size: 300,
+            elementColor: Colors.indigo,
+            data: 'laraman://' + userData.account?.value?.uid,
+            errorCorrectLevel: QrErrorCorrectLevel.M,
+            roundEdges: true));
   }
 }
 

@@ -9,10 +9,11 @@ import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
 class FriendsIndex extends StatelessWidget {
-  final FriendController controller =
+  final FriendController friendsController =
       Get.put<FriendController>(FriendController());
+
   Future<List<Friend>> _refreshData() async {
-    return await controller.getFriendRequests();
+    return await friendsController.getFriendRequests();
     //_data.clear();
     //_data.addAll(FriendService().getFriendRequests());
   }
@@ -47,8 +48,8 @@ class FriendsIndex extends StatelessWidget {
                             IconButton(
                                 icon: Icon(Icons.check),
                                 onPressed: () {
-                                  FriendController.makeRequest(
-                                      _phoneController.text);
+                                  friendsController
+                                      .makeRequest(_phoneController.text);
                                 })
                           ],
                           title: 'Add New Friend',

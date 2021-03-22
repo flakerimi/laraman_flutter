@@ -7,6 +7,7 @@ import 'config/routes.dart';
 import 'modules/announcement/controller/announcement_controller.dart';
 import 'modules/account/controllers/account_controller.dart';
 import 'modules/merchant/controller/merchant_controller.dart';
+import 'modules/payment/controllers/payment_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,7 @@ void main() async {
   Get.put<AccountController>(AccountController());
   Get.put<AnnouncementController>(AnnouncementController());
   Get.put<MerchantController>(MerchantController());
+  Get.put<PaymentController>(PaymentController());
   runApp(Laraman());
 }
 

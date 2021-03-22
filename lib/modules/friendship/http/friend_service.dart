@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import 'package:laraman/modules/friendship/models/friend.dart';
 
 class FriendService {
@@ -30,16 +31,26 @@ class FriendService {
     return qShot.docs.map((doc) => Friend.fromMap(doc.data())).toList();
   }
 
+  Future<Friend> getFriendByPhoneNumber(phoneController) async {
+    QuerySnapshot qShot = await _db
+        .collection('users')
+        .where('phoneNumber', isEqualTo: phoneController)
+        .get();
+
+    return Friend.fromMap(qShot.docs.first.data()); //((doc) =>  doc.data());
+  }
+
   sendFriendRequest(phoneController) {
     var fsUser = _db.collection('users');
-
+    //print(phoneController);
     fsUser.where('phoneNumber', isEqualTo: phoneController).get().then((value) {
-      var snapshot = value.docs[0];
-      if (snapshot.exists) {
+      // print(value.docs.length);
+      if (value.docs.length != 0) {
+        var snapshot = value.docs[0];
         var id = snapshot.id;
         var data = snapshot.data();
         var fo = Friend.fromMap(data);
-        print(fo.toJson());
+        // print(fo.toJson());
         Friend friend = Friend(
           status: 'requested',
           firstName: fo.firstName,
@@ -55,20 +66,22 @@ class FriendService {
           qr: fo.qr,
           qrSvg: fo.qr,
         );
-        fsUser
-            .doc(auth.currentUser.uid)
-            .collection('friends')
-            .doc(id)
-            .set(friend.toJson());
-
-        return jsonDecode(
-            '{"status":"error","data":"User added successfully"}');
+        print(friend.firstName);
+        return friend;
       } else {
-        return jsonDecode(
-            '{"status":"error","data":"User Not found, check phone number or invite to Laraman"}');
+        Get.snackbar("User not exist", 'message');
       }
     });
-    return "true";
+  }
+
+  saveFriendRequest(Friend friend) {
+    var fsUser = _db.collection('users');
+
+    fsUser
+        .doc(auth.currentUser.uid)
+        .collection('friends')
+        .doc(friend.uid)
+        .set(friend.toJson());
   }
 
   sendMoney(double amount) {

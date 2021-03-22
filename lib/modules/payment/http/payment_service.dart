@@ -84,4 +84,16 @@ class PaymentService {
 
     return qShot.docs.map((doc) => UserPayment.fromMap(doc.data())).toList();
   }
+
+  Future<List<UserPayment>> getPaymentRequests(userId) async {
+    QuerySnapshot qShot = await _db
+        .collection('payment_requests')
+        .where('fromUserId', isEqualTo: auth.currentUser.uid)
+        .orderBy('createdAt', descending: true)
+        .get();
+
+    return qShot.docs.map((doc) => UserPayment.fromMap(doc.data())).toList();
+  }
+
+  sendPaymentRequests(userId) {}
 }

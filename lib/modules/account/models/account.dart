@@ -36,7 +36,7 @@ class Account {
     return Account(
       uid: data['uid'],
       address: data['address'],
-      balance: data['balance'].toDouble(),
+      balance: data['balance'] == null ? 0.0 : data['balance'].toDouble(),
       city: data['city'],
       country: data['country'],
       dateCreated: data['dateCreated'],
@@ -54,7 +54,7 @@ class Account {
     return Account(
       uid: data['uid'],
       address: data['address'],
-      balance: data['balance'].toDouble(),
+      balance: data['balance'] == null ? 0.0 : data['balance'].toDouble(),
       city: data['city'],
       country: data['country'],
       dateCreated: data['dateCreated'],
@@ -72,7 +72,7 @@ class Account {
   Map<String, dynamic> toJson() => {
         "uid": uid,
         "address": address,
-        "balance": balance.toDouble(),
+        "balance": balance == null ? 0.0 : balance.toDouble(),
         "city": city,
         "country": country,
         "dateCreated": dateCreated,

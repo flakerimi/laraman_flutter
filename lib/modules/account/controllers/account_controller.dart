@@ -14,14 +14,24 @@ class AccountController extends GetxController {
 
   @override
   void onReady() async {
+    //_auth.signOut();
     //run every time auth state changes
     ever(firebaseUser, handleAuthChanged);
     firebaseUser.value = await getUser;
     firebaseUser.bindStream(user);
 
-    // Get.put<LedgerController>(LedgerController());
-
     super.onReady();
+  }
+
+  handleAuthChanged(User _firebaseUser) async {
+    if (_firebaseUser == null) {
+      Get.offAllNamed("/login");
+    } else {
+      Get.offAllNamed("/home");
+    }
+    if (_firebaseUser != null) {
+      account.bindStream(streamFirestoreUser());
+    }
   }
 
   Future<Account> getAccountByUid(uid) async {
@@ -43,21 +53,11 @@ class AccountController extends GetxController {
           .snapshots()
           .map((snapshot) => Account.fromMap(snapshot.data()));
       //fsUser.then((value) => {print(value.country)});
+    } else {
+      Get.offAllNamed("/login");
     }
 
     return null;
-  }
-
-  handleAuthChanged(_firebaseUser) async {
-    if (_firebaseUser?.uid != null) {
-      account.bindStream(streamFirestoreUser());
-    }
-
-    if (_firebaseUser == null) {
-      Get.offAllNamed("/login");
-    } else {
-      Get.offAllNamed("/home");
-    }
   }
 
   void verifyPhone(_phoneController, codeController) async {
@@ -79,7 +79,16 @@ class AccountController extends GetxController {
               Account account = Account(
                   uid: user.uid,
                   phoneNumber: user.phoneNumber,
-                  firstName: 'FLakerim');
+                  balance: 1.0,
+                  dateCreated: Timestamp.now(),
+                  dateUpdated: Timestamp.now(),
+                  status: 'active',
+                  email: "",
+                  city: "",
+                  country: "",
+                  address: "",
+                  firstName: "",
+                  lastName: "");
               fsUser.doc(user.uid).set(account.toJson());
               Get.toNamed("/edit-profile");
             } else {
@@ -132,9 +141,18 @@ class AccountController extends GetxController {
                 print('New user 2' + isNew.toString());
                 var fsUser = FirebaseFirestore.instance.collection('users');
                 Account account = Account(
-                  uid: user.uid,
-                  phoneNumber: user.phoneNumber,
-                );
+                    uid: user.uid,
+                    phoneNumber: user.phoneNumber,
+                    balance: 1.0,
+                    dateCreated: Timestamp.now(),
+                    dateUpdated: Timestamp.now(),
+                    status: 'active',
+                    email: "",
+                    city: "",
+                    country: "",
+                    address: "",
+                    firstName: "",
+                    lastName: "");
                 fsUser.doc(user.uid).set(account.toJson());
                 Get.toNamed("/edit-profile");
               } else {
@@ -147,5 +165,9 @@ class AccountController extends GetxController {
         )
       ],
     ));
+  }
+
+  signOut() {
+    _auth.signOut();
   }
 }

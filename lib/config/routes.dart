@@ -15,6 +15,6 @@ class AppRoutes {
     GetPage(name: '/home', page: () => HomeIndex()),
     GetPage(name: '/settings', page: () => SettingsIndex()),
     GetPage(name: '/edit-profile', page: () => EditProfile()),
-    GetPage(name: '/payment/requests', page: () => PaymentRequests()),
+    GetPage(name: '/payment_requests', page: () => PaymentRequests()),
   ];
 }
