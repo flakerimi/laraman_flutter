@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/modules/friendship/models/friend.dart';
 
 class FriendService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
+  final AccountController accountController = AccountController.to;
 
   Future<List<Friend>> getFriendsList() async {
     QuerySnapshot qShot = await _db
@@ -72,14 +74,30 @@ class FriendService {
     });
   }
 
-  saveFriendRequest(Friend friend) {
+  saveFriendRequest(Friend friend) async {
+    print(friend.phoneNumber);
     var fsUser = _db.collection('users');
-
-    fsUser
+    await fsUser
+        .doc(friend.uid)
+        .collection('friends')
+        .doc(accountController.account.value.uid)
+        .set(accountController.account.value.toJson());
+    await fsUser
         .doc(auth.currentUser.uid)
         .collection('friends')
         .doc(friend.uid)
         .set(friend.toJson());
+    await fsUser
+        .doc(friend.uid)
+        .collection('friends')
+        .doc(accountController.account.value.uid)
+        .update({'status': 'requested'});
+    await fsUser
+        .doc(auth.currentUser.uid)
+        .collection('friends')
+        .doc(friend.uid)
+        .update({'status': 'requested'});
+    return "success";
   }
 
   sendMoney(double amount) {
@@ -98,6 +116,7 @@ class FriendService {
         .collection('friends')
         .doc(uid)
         .update({'status': 'accepted'});
+    Get.back();
   }
 
   rejectFriend(String uid) {
@@ -108,5 +127,6 @@ class FriendService {
         .collection('friends')
         .doc(uid)
         .update({'status': 'declined'});
+    Get.back();
   }
 }

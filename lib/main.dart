@@ -33,19 +33,21 @@ class Laraman extends StatelessWidget {
           size: 11.2,
         ),
         primarySwatch: Colors.indigo,
-        primaryTextTheme: TextTheme(
-          headline6: TextStyle(
-            color: Colors.indigo,
-          ),
-          headline1: TextStyle(
-            fontSize: 20,
-            color: Colors.indigo,
-          ),
-        ),
+        primaryTextTheme: TextTheme(),
         textTheme: GoogleFonts.rubikTextTheme(
           Theme.of(context).textTheme.copyWith(
                 headline4: TextStyle(
                   fontSize: 30,
+                  color: Colors.indigo,
+                ),
+                headline6: TextStyle(
+                  color: Colors.indigo,
+                ),
+                headline5: TextStyle(
+                  color: Colors.indigo,
+                ),
+                headline1: TextStyle(
+                  fontSize: 20,
                   color: Colors.indigo,
                 ),
               ),

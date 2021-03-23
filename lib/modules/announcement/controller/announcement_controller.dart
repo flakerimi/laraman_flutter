@@ -17,14 +17,15 @@ class AnnouncementController extends GetxController {
   }
 
   setNotification(
-      {userId, isArchive, isRead, link, title, createdAt, message}) {
+      {userId, isArchive, isRead, link, title, createdAt, message}) async {
     var announcement = Announcement(
         userId: userId,
         isArchive: isArchive,
         isRead: isRead,
         title: title,
+        link: link,
         createdAt: createdAt,
         message: message);
-    AnnouncementApi().setNotification(announcement);
+    await AnnouncementApi().setNotification(announcement);
   }
 }

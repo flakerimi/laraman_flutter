@@ -15,12 +15,6 @@ class FriendsIndex extends StatelessWidget {
   final FriendController friendsController =
       Get.put<FriendController>(FriendController());
 
-  Future<List<Friend>> _refreshData() async {
-    return await friendsController.getFriends();
-    //_data.clear();
-    //_data.addAll(FriendService().getFriendRequests());
-  }
-
   final _phoneController = TextEditingController();
 
   @override
@@ -77,41 +71,37 @@ class FriendsIndex extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(0.0),
             child: FutureBuilder<List<Friend>>(
-              future: _refreshData(),
+              future: friendsController.getFriends(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return RefreshIndicator(
-                    color: Colors.green,
-                    onRefresh: _refreshData,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      children: snapshot.data
-                          .map(
-                            (doc) => ListTile(
-                              leading: SizedBox(
-                                width: 50,
-                                child: PrettyQr(
-                                  data: "laraman://" + doc.uid,
-                                  size: 100,
-                                  image: AssetImage('assets/images/l.png'),
-                                  typeNumber: 3,
-                                  errorCorrectLevel: QrErrorCorrectLevel.M,
-                                ),
+                  return ListView(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    children: snapshot.data
+                        .map(
+                          (doc) => ListTile(
+                            /* leading: SizedBox(
+                              width: 50,
+                              child: PrettyQr(
+                                data: "laraman://" + doc.uid,
+                                size: 100,
+                                image: AssetImage('assets/images/l.png'),
+                                typeNumber: 3,
+                                errorCorrectLevel: QrErrorCorrectLevel.M,
                               ),
-                              title: Text(doc.firstName + ' ' + doc.lastName),
-                              subtitle: Text(doc.phoneNumber),
-                              trailing: Icon(
-                                CssGG.volume,
-                                size: 30,
-                              ),
-                              onTap: () => Get.to(FriendView(),
-                                  transition: Transition.rightToLeft,
-                                  arguments: doc),
+                            ), */
+                            title: Text(doc.firstName + ' ' + doc.lastName),
+                            subtitle: Text(doc.phoneNumber),
+                            trailing: Icon(
+                              CssGG.abstract_icon,
+                              size: 30,
                             ),
-                          )
-                          .toList(),
-                    ),
+                            onTap: () => Get.to(FriendView(),
+                                transition: Transition.rightToLeft,
+                                arguments: doc),
+                          ),
+                        )
+                        .toList(),
                   );
                 } else if (snapshot.hasError) {
                   return Text('Its Error! Refresh');

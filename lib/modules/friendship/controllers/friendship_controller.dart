@@ -20,19 +20,19 @@ class FriendController extends GetxController {
   makeRequest(_phoneController) async {
     Friend friend =
         await FriendService().getFriendByPhoneNumber(_phoneController);
-    print('fr' + friend.firstName);
     if (friend.uid != null) {
-      FriendService().saveFriendRequest(friend);
+      await FriendService().saveFriendRequest(friend);
       //  print(accountcontroller.account.value.firstName);
-      announcementController.setNotification(
+      await announcementController.setNotification(
           userId: friend.uid,
           isRead: false,
           isArchive: false,
-          link: 'friend_requests',
+          link: '/friendsrequests',
           createdAt: Timestamp.now(),
           title: "Friend Request",
           message:
               "${accountcontroller.account.value.firstName} has sent you a friend request");
+      Get.back();
     }
   }
 
