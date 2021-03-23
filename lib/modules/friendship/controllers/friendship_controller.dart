@@ -22,7 +22,7 @@ class FriendController extends GetxController {
         await FriendService().getFriendByPhoneNumber(_phoneController);
     print('fr' + friend.firstName);
     if (friend.uid != null) {
-      //  FriendService().saveFriendRequest(friend);
+      FriendService().saveFriendRequest(friend);
       //  print(accountcontroller.account.value.firstName);
       announcementController.setNotification(
           userId: friend.uid,
@@ -42,5 +42,13 @@ class FriendController extends GetxController {
 
   Future<Friend> requestMoney(double amount) async {
     return await FriendService().requestMoney(amount);
+  }
+
+  static rejectFriend(String uid) {
+    FriendService().rejectFriend(uid);
+  }
+
+  static acceptFriend(String uid) {
+    FriendService().acceptFriend(uid);
   }
 }

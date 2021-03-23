@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -90,5 +88,25 @@ class FriendService {
 
   requestMoney(double amount) {
     print(amount);
+  }
+
+  acceptFriend(String uid) {
+    var fsUser = _db.collection('users');
+
+    fsUser
+        .doc(auth.currentUser.uid)
+        .collection('friends')
+        .doc(uid)
+        .update({'status': 'accepted'});
+  }
+
+  rejectFriend(String uid) {
+    var fsUser = _db.collection('users');
+
+    fsUser
+        .doc(auth.currentUser.uid)
+        .collection('friends')
+        .doc(uid)
+        .update({'status': 'declined'});
   }
 }
