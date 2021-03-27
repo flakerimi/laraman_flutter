@@ -158,7 +158,7 @@ class LeftDrawer extends StatelessWidget {
                     "qe te kerkojne eur",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
-                  onTap: () => Get.to(() => FriendsIndex(),
+                  onTap: () => Get.to(() => FriendsIndex(0),
                       transition: Transition.rightToLeft),
                 ),
               ),

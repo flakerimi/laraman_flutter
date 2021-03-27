@@ -14,8 +14,7 @@ class FriendService {
         .collection('users')
         .doc(auth.currentUser.uid)
         .collection('friends')
-        .where('status', isEqualTo: 'accepted')
-        .get();
+        .where('status', whereIn: ['requested', 'accepted']).get();
 
     return qShot.docs.map((doc) => Friend.fromMap(doc.data())).toList();
   }
@@ -38,6 +37,26 @@ class FriendService {
         .get();
 
     return Friend.fromMap(qShot.docs.first.data()); //((doc) =>  doc.data());
+  }
+
+  Future<Friend> getFriendByUid(uid) async {
+    return _db
+        .collection('users')
+        .doc(uid)
+        .get()
+        .then((snapshot) => Friend.fromMap(snapshot.data()));
+  }
+
+  isFriendOf(uid) {
+    bool iss = false;
+    _db
+        .collection('users')
+        .doc(auth.currentUser.uid)
+        .collection('friends')
+        .doc(uid)
+        .get()
+        .then((value) => iss = value.exists);
+    return iss;
   }
 
   sendFriendRequest(phoneController) {
@@ -77,21 +96,21 @@ class FriendService {
   saveFriendRequest(Friend friend) async {
     print(friend.phoneNumber);
     var fsUser = _db.collection('users');
-    await fsUser
+    /*  await fsUser
         .doc(friend.uid)
         .collection('friends')
         .doc(accountController.account.value.uid)
-        .set(accountController.account.value.toJson());
+        .set(accountController.account.value.toJson()); */
     await fsUser
         .doc(auth.currentUser.uid)
         .collection('friends')
         .doc(friend.uid)
         .set(friend.toJson());
-    await fsUser
+    /*   await fsUser
         .doc(friend.uid)
         .collection('friends')
         .doc(accountController.account.value.uid)
-        .update({'status': 'requested'});
+        .update({'status': 'requested'}); */
     await fsUser
         .doc(auth.currentUser.uid)
         .collection('friends')
@@ -115,6 +134,17 @@ class FriendService {
         .doc(auth.currentUser.uid)
         .collection('friends')
         .doc(uid)
+        .update({'status': 'accepted'});
+    fsUser
+        .doc(uid)
+        .collection('friends')
+        .doc(accountController.account.value.uid)
+        .set(accountController.account.value.toJson());
+
+    fsUser
+        .doc(uid)
+        .collection('friends')
+        .doc(auth.currentUser.uid)
         .update({'status': 'accepted'});
     Get.back();
   }

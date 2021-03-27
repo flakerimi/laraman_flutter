@@ -47,7 +47,6 @@ class SubscriptionService {
         var id = snapshot.id;
         var data = snapshot.data();
         var fo = Subscription.fromMap(data);
-        print(fo.toJson());
         Subscription friend = Subscription(
           status: 'requested',
           customerFirstName: fo.customerFirstName,

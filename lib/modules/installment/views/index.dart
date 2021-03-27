@@ -53,7 +53,6 @@ class SubscriptionIndex extends StatelessWidget {
                 future: _refreshData(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot);
                     return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,

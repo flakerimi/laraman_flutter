@@ -51,18 +51,27 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
               if (snapshot.hasData) {
                 // <3> Retrieve `List<DocumentSnapshot>` from snapshot
                 final documents = snapshot.data.docs.length;
-                return IconButton(
-                  icon: Badge(
-                    badgeColor: Colors.indigo,
-                    badgeContent: Text(
-                      documents.toString(),
-                      style: TextStyle(fontSize: 10, color: Colors.white),
+
+                if (documents != 0) {
+                  return IconButton(
+                    icon: Badge(
+                      badgeColor: Colors.indigo,
+                      badgeContent: Text(
+                        documents.toString(),
+                        style: TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                      child: Icon(Icons.notifications),
                     ),
-                    child: Icon(Icons.notifications),
-                  ),
-                  color: Colors.indigo,
-                  onPressed: () => Get.to(() => AnnouncementView()),
-                );
+                    color: Colors.indigo,
+                    onPressed: () => Get.to(() => AnnouncementView()),
+                  );
+                } else {
+                  return IconButton(
+                    icon: Icon(Icons.notifications),
+                    color: Colors.indigo,
+                    onPressed: () => Get.to(() => AnnouncementView()),
+                  );
+                }
               } else if (snapshot.hasError) {
                 return Text('It\'s Error!');
               }

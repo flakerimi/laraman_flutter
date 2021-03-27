@@ -10,7 +10,6 @@ class SubscriptionService {
   final FirebaseAuth auth = FirebaseAuth.instance;
 
   Future<List<Subscription>> getMySubscriptionsList() async {
-    print(auth.currentUser.uid);
     QuerySnapshot qShot = await _db
         .collection('users')
         .doc(auth.currentUser.uid)

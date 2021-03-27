@@ -7,7 +7,6 @@ class SubscriptionView extends StatelessWidget {
   final Subscription data = Get.arguments;
   @override
   Widget build(BuildContext context) {
-    print(data);
     /* this.merchantBusinessName,
     this.merchantBusinessLogo,
     this.merchantUin,

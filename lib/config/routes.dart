@@ -1,6 +1,6 @@
 import 'package:get/get.dart';
 import 'package:laraman/modules/account/views/index.dart';
-import 'package:laraman/modules/friendship/views/requests.dart';
+import 'package:laraman/modules/friendship/views/index.dart';
 import 'package:laraman/modules/home/views/index.dart';
 import 'package:laraman/modules/payment/views/request/payment_request.dart';
 import 'package:laraman/modules/settings/views/index.dart';
@@ -17,6 +17,6 @@ class AppRoutes {
     GetPage(name: '/settings', page: () => SettingsIndex()),
     GetPage(name: '/edit-profile', page: () => EditProfile()),
     GetPage(name: '/payment_requests', page: () => PaymentRequests()),
-    GetPage(name: '/friendsrequests', page: () => FriendRequests()),
+    GetPage(name: '/friendsrequests', page: () => FriendsIndex(1)),
   ];
 }

@@ -51,4 +51,18 @@ class FriendController extends GetxController {
   static acceptFriend(String uid) {
     FriendService().acceptFriend(uid);
   }
+
+  void scanFriend() {}
+
+  Future<Friend> getFriendByUid(queryParameter) async {
+    return await FriendService().getFriendByUid(queryParameter);
+  }
+
+  bool isFriendOf(String uid) {
+    return FriendService().isFriendOf(uid);
+  }
+
+  saveFriendRequest(Friend args) {
+    return FriendService().saveFriendRequest(args);
+  }
 }

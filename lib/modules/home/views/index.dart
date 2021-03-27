@@ -227,10 +227,10 @@ class ProfileCard extends StatelessWidget {
     return Container(
       child: PrettyQr(
         image: AssetImage('assets/images/l.png'),
-        typeNumber: 3,
+        typeNumber: 5,
         size: 300,
         elementColor: Colors.indigo,
-        data: 'laraman://' + userData.account?.value?.uid,
+        data: 'laraman://user?id=' + userData.account?.value?.uid,
         errorCorrectLevel: QrErrorCorrectLevel.M,
         roundEdges: true,
       ),

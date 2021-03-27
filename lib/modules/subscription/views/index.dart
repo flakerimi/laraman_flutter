@@ -53,14 +53,12 @@ class SubscriptionIndex extends StatelessWidget {
                 future: _refreshData(),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    print(snapshot);
                     return ListView.builder(
                         scrollDirection: Axis.vertical,
                         shrinkWrap: true,
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           var data = snapshot.data;
-                          print(data[index].toJson());
                           return ListTile(
                               contentPadding: EdgeInsets.all(0),
                               leading: Hero(

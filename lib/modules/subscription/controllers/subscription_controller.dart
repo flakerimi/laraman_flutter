@@ -17,7 +17,6 @@ class SubscriptionController extends GetxController {
     var message =
         await SubscriptionService().sendSubscriptionRequest(_phoneController);
     Get.back();
-    print(message);
     return message;
   }
 }

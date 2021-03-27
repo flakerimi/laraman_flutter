@@ -10,7 +10,7 @@ class AnnouncementController extends GetxController {
     return AnnouncementApi().getNotification(userID);
   }
 
-  getNotificationCount(String userID) {
+  Stream getNotificationCount(String userID) {
     //for now we just return Firebase data,
     //sometime in future we might manipulate before return
     return AnnouncementApi().getNotificationCount(userID);
@@ -31,5 +31,9 @@ class AnnouncementController extends GetxController {
 
   markAsRead(String docId) {
     AnnouncementApi().markAsRead(docId);
+  }
+
+  void archive(String docId) {
+    AnnouncementApi().archive(docId);
   }
 }

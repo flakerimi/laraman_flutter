@@ -45,9 +45,20 @@ class AnnouncementView extends StatelessWidget {
                   Divider(),
                   Expanded(
                     child: ListView(
-                        children: documents
-                            .map((doc) => Card(
-                                  child: ListTile(
+                      children: documents
+                          .map(
+                            (doc) => Dismissible(
+                              key: Key(doc.id),
+                              direction: DismissDirection.startToEnd,
+                              onDismissed: (DismissDirection direction) {
+                                if (direction == DismissDirection.startToEnd) {
+                                  announcementController.archive(doc.id);
+                                  documents.remove(doc.id);
+                                }
+                              },
+                              child: Column(
+                                children: [
+                                  ListTile(
                                     tileColor: doc['isRead']
                                         ? Colors.grey.shade100
                                         : Colors.grey.shade300,
@@ -58,20 +69,22 @@ class AnnouncementView extends StatelessWidget {
                                     ),
                                     title: Text(doc['title']),
                                     subtitle: Text(doc['message']),
-                                    trailing: !doc['isRead']
-                                        ? Icon(
-                                            Icons.circle,
-                                            color: Colors.green,
-                                            size: 16,
-                                          )
-                                        : Text(''),
+                                    trailing: IconButton(
+                                      icon: Icon(Icons.archive),
+                                      onPressed: () {},
+                                    ),
                                     onTap: () {
                                       Get.toNamed(doc['link']);
                                       announcementController.markAsRead(doc.id);
                                     },
                                   ),
-                                ))
-                            .toList()),
+                                  Divider(),
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
                   ),
                 ],
               );
