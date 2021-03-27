@@ -28,4 +28,8 @@ class AnnouncementController extends GetxController {
         message: message);
     await AnnouncementApi().setNotification(announcement);
   }
+
+  markAsRead(String docId) {
+    AnnouncementApi().markAsRead(docId);
+  }
 }

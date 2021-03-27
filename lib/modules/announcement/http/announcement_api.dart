@@ -25,4 +25,8 @@ class AnnouncementApi {
         .where("isRead", isEqualTo: false)
         .snapshots();
   }
+
+  markAsRead(String docId) {
+    return _db.collection("notifications").doc(docId).update({'isRead': true});
+  }
 }

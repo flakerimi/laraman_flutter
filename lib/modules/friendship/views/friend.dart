@@ -18,42 +18,40 @@ class FriendView extends StatelessWidget {
         backgroundColor: Colors.white,
       ),
       body: Center(
-        child: Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              PrettyQr(
-                data: "laraman://" + args.uid,
-                size: 100,
-                image: AssetImage('assets/images/l.png'),
-                typeNumber: 3,
-                errorCorrectLevel: QrErrorCorrectLevel.M,
-              ),
-              Text(args.firstName + ' ' + args.lastName),
-              Text(args.phoneNumber + ' / ' + args.email),
-              Spacer(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    onPressed: () => Get.to(() => SendMoney(),
-                        arguments: args,
-                        transition: Transition.rightToLeftWithFade),
-                    child: Text('Send'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () => Get.to(() => RequestMoney(),
-                        arguments: args,
-                        transition: Transition.rightToLeftWithFade),
-                    child: Text('Request'),
-                  ),
-                ],
-              ),
-              Spacer(),
-            ],
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            PrettyQr(
+              data: "laraman://" + args.uid,
+              size: 100,
+              image: AssetImage('assets/images/l.png'),
+              typeNumber: 3,
+              errorCorrectLevel: QrErrorCorrectLevel.M,
+            ),
+            Text(args.firstName + ' ' + args.lastName),
+            Text(args.phoneNumber + ' / ' + args.email),
+            Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () => Get.to(() => SendMoney(),
+                      arguments: args,
+                      transition: Transition.rightToLeftWithFade),
+                  child: Text('Send'),
+                ),
+                ElevatedButton(
+                  onPressed: () => Get.to(() => RequestMoney(),
+                      arguments: args,
+                      transition: Transition.rightToLeftWithFade),
+                  child: Text('Request'),
+                ),
+              ],
+            ),
+            Spacer(),
+          ],
         ),
       ),
     );

@@ -225,14 +225,16 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: PrettyQr(
-            image: AssetImage('assets/images/l.png'),
-            typeNumber: 3,
-            size: 300,
-            elementColor: Colors.indigo,
-            data: 'laraman://' + userData.account?.value?.uid,
-            errorCorrectLevel: QrErrorCorrectLevel.M,
-            roundEdges: true));
+      child: PrettyQr(
+        image: AssetImage('assets/images/l.png'),
+        typeNumber: 3,
+        size: 300,
+        elementColor: Colors.indigo,
+        data: 'laraman://' + userData.account?.value?.uid,
+        errorCorrectLevel: QrErrorCorrectLevel.M,
+        roundEdges: true,
+      ),
+    );
   }
 }
 
@@ -256,9 +258,43 @@ class TopMerchantsCard extends StatelessWidget {
             da.add(e.merchantId);
           })
         });
-    print(da);
+
     return Container(
-      child: Text(da.toString()),
+      color: Colors.indigo,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            'Top Merchants ',
+            style: TextStyle(fontSize: 30, color: Colors.white),
+          ),
+          Divider(),
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  title: Text(
+                    'Meridian',
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Meridian',
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                  ),
+                ),
+                ListTile(
+                  title: Text(
+                    'Meridian',
+                    style: TextStyle(fontSize: 30, color: Colors.white),
+                  ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }

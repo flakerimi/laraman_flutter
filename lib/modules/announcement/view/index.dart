@@ -22,26 +22,59 @@ class AnnouncementView extends StatelessWidget {
             if (snapshot.hasData) {
               // <3> Retrieve `List<DocumentSnapshot>` from snapshot
               final List<DocumentSnapshot> documents = snapshot.data.docs;
-              return ListView(
-                  children: documents
-                      .map((doc) => Card(
-                            child: ListTile(
-                              leading: Icon(
-                                Icons.request_page,
-                                size: 32,
-                                color: Colors.amber,
-                              ),
-                              title: Text(doc['title']),
-                              subtitle: Text(doc['message']),
-                              trailing: Icon(
-                                Icons.keyboard_arrow_right_outlined,
-                                color: Colors.green,
-                                size: 32,
-                              ),
-                              onTap: () => Get.toNamed(doc['link']),
-                            ),
-                          ))
-                      .toList());
+              return Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Notifications',
+                          style: Theme.of(context).textTheme.headline4,
+                        ),
+                      ),
+                      Spacer(),
+                      IconButton(
+                        icon: Icon(Icons.more_vert),
+                        onPressed: () => Get.to(
+                          () => {},
+                        ),
+                      )
+                    ],
+                  ),
+                  Divider(),
+                  Expanded(
+                    child: ListView(
+                        children: documents
+                            .map((doc) => Card(
+                                  child: ListTile(
+                                    tileColor: doc['isRead']
+                                        ? Colors.grey.shade100
+                                        : Colors.grey.shade300,
+                                    leading: Icon(
+                                      Icons.request_page,
+                                      size: 32,
+                                      color: Colors.amber,
+                                    ),
+                                    title: Text(doc['title']),
+                                    subtitle: Text(doc['message']),
+                                    trailing: !doc['isRead']
+                                        ? Icon(
+                                            Icons.circle,
+                                            color: Colors.green,
+                                            size: 16,
+                                          )
+                                        : Text(''),
+                                    onTap: () {
+                                      Get.toNamed(doc['link']);
+                                      announcementController.markAsRead(doc.id);
+                                    },
+                                  ),
+                                ))
+                            .toList()),
+                  ),
+                ],
+              );
             } else if (snapshot.hasError) {
               return Text('It\'s Error!');
             }
