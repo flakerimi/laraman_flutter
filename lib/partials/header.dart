@@ -82,7 +82,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
           Builder(
             builder: (context) {
               return IconButton(
-                icon: Icon(Icons.person),
+                icon: Icon(Icons.settings_outlined),
                 color: Colors.indigo,
                 onPressed: () {
                   Scaffold.of(context).openEndDrawer();
