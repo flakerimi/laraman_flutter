@@ -16,7 +16,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(10.0),
+      padding: const EdgeInsets.all(0.0),
       child: AppBar(
         automaticallyImplyLeading: true,
         title: GestureDetector(
@@ -24,7 +24,8 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
           child: Text(
             'LARAMAN',
             style: GoogleFonts.rubik(
-              fontSize: 30,
+              color: Colors.indigo,
+              fontSize: 20,
               fontWeight: FontWeight.w500,
             ),
           ),

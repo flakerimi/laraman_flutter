@@ -34,12 +34,22 @@ class AnnouncementView extends StatelessWidget {
                         ),
                       ),
                       Spacer(),
-                      IconButton(
-                        icon: Icon(Icons.more_vert),
-                        onPressed: () => Get.to(
-                          () => {},
-                        ),
-                      )
+                      PopupMenuButton(
+                        initialValue: 2,
+                        child: Center(
+                            child: Icon(
+                          Icons.more_vert,
+                          size: 30,
+                        )),
+                        itemBuilder: (context) {
+                          return List.generate(5, (index) {
+                            return PopupMenuItem(
+                              value: index,
+                              child: Text('button no $index'),
+                            );
+                          });
+                        },
+                      ),
                     ],
                   ),
                   Divider(),

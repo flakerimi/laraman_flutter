@@ -9,12 +9,6 @@ import 'package:laraman/partials/left_drawer.dart';
 import 'package:laraman/partials/right_drawer.dart';
 
 class ListAvaiableMerchants extends StatelessWidget {
-  Future<List<Merchant>> _refreshData() async {
-    return await MerchantController().getSubscriptionMerchant();
-    //_data.clear();
-    //_data.addAll(SubscriptionService().getSubscriptionRequests());
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,37 +32,33 @@ class ListAvaiableMerchants extends StatelessWidget {
               ],
             ),
             FutureBuilder<List<Merchant>>(
-              future: _refreshData(),
+              future: MerchantController().getSubscriptionMerchant(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return RefreshIndicator(
-                    color: Colors.green,
-                    onRefresh: _refreshData,
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.all(0.0),
-                      children: snapshot.data
-                          .map(
-                            (doc) => ListTile(
-                                leading: CachedNetworkImage(
-                                  width: 50,
-                                  height: 50,
-                                  imageUrl: doc.logo,
-                                ),
-                                title: Text(doc.businessName.toString()),
-                                subtitle: Text(doc.uniqueIdentificationNumber),
-                                trailing: Icon(
-                                  Icons.keyboard_arrow_right_outlined,
-                                  size: 30,
-                                ),
-                                onTap: () {
-                                  Get.to(() => SubscriptionAddView(),
-                                      arguments: doc);
-                                }),
-                          )
-                          .toList(),
-                    ),
+                  return ListView(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    padding: EdgeInsets.all(0.0),
+                    children: snapshot.data
+                        .map(
+                          (doc) => ListTile(
+                              leading: CachedNetworkImage(
+                                width: 50,
+                                height: 50,
+                                imageUrl: doc.logo,
+                              ),
+                              title: Text(doc.businessName?.toString()),
+                              subtitle: Text(doc.uniqueIdentificationNumber),
+                              trailing: Icon(
+                                Icons.keyboard_arrow_right_outlined,
+                                size: 30,
+                              ),
+                              onTap: () {
+                                Get.to(() => SubscriptionAddView(),
+                                    arguments: doc);
+                              }),
+                        )
+                        .toList(),
                   );
                 } else if (snapshot.hasError) {
                   return Text('Its Error! Refresh');

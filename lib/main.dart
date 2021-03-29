@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +22,8 @@ void main() async {
 class Laraman extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Platform.isAndroid ?? SystemChrome.setEnabledSystemUIOverlays([]);
+    //Platform.isAndroid ??
+    SystemChrome.setEnabledSystemUIOverlays([]);
 
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,

@@ -44,7 +44,8 @@ class SubscriptionAddView extends StatelessWidget {
                             color: Colors.indigo),
                       ),
                       Text(
-                        merchant.businessName.toUpperCase(),
+                        merchant?.businessName?.toUpperCase() ??
+                            'Merchant not found',
                         style: Theme.of(context).textTheme.headline4,
                       ),
                     ],
