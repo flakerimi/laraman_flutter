@@ -25,7 +25,7 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
             'LARAMAN',
             style: GoogleFonts.rubik(
               color: Colors.indigo,
-              fontSize: 20,
+              fontSize: 30,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -96,5 +96,5 @@ class Header extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => const Size.fromHeight(100);
+  Size get preferredSize => const Size.fromHeight(70);
 }

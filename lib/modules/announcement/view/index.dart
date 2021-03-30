@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:laraman/modules/announcement/controller/announcement_controller.dart';
-import 'package:laraman/partials/header.dart';
 
 class AnnouncementView extends StatelessWidget {
   final AccountController accountController = AccountController.to;
@@ -13,7 +12,35 @@ class AnnouncementView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: Header(),
+      appBar: AppBar(
+        centerTitle: false,
+        elevation: 0,
+        backgroundColor: Colors.white,
+        title: Text(
+          'Notifications',
+          style: Theme.of(context).textTheme.headline4,
+        ),
+        actions: [
+          PopupMenuButton(
+            initialValue: 2,
+            padding: EdgeInsets.all(50),
+            child: Padding(
+                padding: EdgeInsets.all(10),
+                child: Icon(
+                  Icons.more_vert,
+                  size: 30,
+                )),
+            itemBuilder: (context) {
+              return List.generate(5, (index) {
+                return PopupMenuItem(
+                  value: index,
+                  child: Text('button no $index'),
+                );
+              });
+            },
+          ),
+        ],
+      ),
       body: StreamBuilder<QuerySnapshot>(
           // <2> Pass `Stream<QuerySnapshot>` to stream
           stream: announcementController
@@ -24,35 +51,6 @@ class AnnouncementView extends StatelessWidget {
               final List<DocumentSnapshot> documents = snapshot.data.docs;
               return Column(
                 children: [
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          'Notifications',
-                          style: Theme.of(context).textTheme.headline4,
-                        ),
-                      ),
-                      Spacer(),
-                      PopupMenuButton(
-                        initialValue: 2,
-                        child: Center(
-                            child: Icon(
-                          Icons.more_vert,
-                          size: 30,
-                        )),
-                        itemBuilder: (context) {
-                          return List.generate(5, (index) {
-                            return PopupMenuItem(
-                              value: index,
-                              child: Text('button no $index'),
-                            );
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                  Divider(),
                   Expanded(
                     child: ListView(
                       children: documents

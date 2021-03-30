@@ -15,7 +15,7 @@ class EditProfile extends StatelessWidget {
     TextEditingController cityController = TextEditingController();
     TextEditingController countryController = TextEditingController();
 
-    void saveAccount() async {
+    void saveProfile() async {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(FirebaseAuth.instance.currentUser.uid)
@@ -42,7 +42,6 @@ class EditProfile extends StatelessWidget {
               countryController.text = value.data()['country'].toString(),
             });
     return Scaffold(
-      appBar: Header(),
       body: Center(
         child: SingleChildScrollView(
           child: Padding(
@@ -52,38 +51,33 @@ class EditProfile extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 TextFormField(
-                  onChanged: (value) => saveAccount(),
                   controller: firstNameController,
                   decoration: InputDecoration(labelText: 'First Name'),
                 ),
                 TextFormField(
-                  onChanged: (value) => saveAccount(),
                   controller: lastNameController,
                   decoration: InputDecoration(labelText: 'Last Name'),
                 ),
                 TextFormField(
-                  onChanged: (value) => saveAccount(),
                   controller: emailController,
                   decoration: InputDecoration(labelText: 'Email'),
                 ),
                 TextFormField(
-                  onChanged: (value) => saveAccount(),
                   controller: addressController,
                   decoration: InputDecoration(labelText: 'Address'),
                 ),
                 TextFormField(
-                  onChanged: (value) => saveAccount(),
                   controller: cityController,
                   decoration: InputDecoration(labelText: 'City'),
                 ),
                 TextFormField(
-                  onChanged: (value) => saveAccount(),
                   controller: countryController,
                   decoration: InputDecoration(labelText: 'Country'),
                 ),
                 ElevatedButton(
                     onPressed: () {
-                      Get.to(SettingsIndex());
+                      saveProfile();
+                      Get.back();
                     },
                     child: Text('Done'))
               ],

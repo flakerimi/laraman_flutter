@@ -112,58 +112,60 @@ class HomeIndex extends StatelessWidget {
       appBar: Header(),
       drawer: LeftDrawer(),
       endDrawer: RightDrawer(),
-      body: Center(
-        child: Obx(
-          () => accountController.account.value == null
-              ? CircularProgressIndicator()
-              : Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      width: 400,
-                      height: 300.0,
-                      child: CarouselSlider(
-                        items: [
-                          BalanceCard(
-                            userData: accountController,
-                          ),
-                          ProfileCard(
-                            userData: accountController,
-                          ),
-                          TopMerchantsCard(
-                            userData: accountController,
-                            merchantData: merchantController,
-                          ),
-                        ],
-                        options: CarouselOptions(
-                            autoPlay: false,
-                            enlargeCenterPage: true,
-                            aspectRatio: 2.0,
-                            height: 300,
-                            onPageChanged: (index, reason) {}),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Obx(
+            () => accountController.account.value == null
+                ? CircularProgressIndicator()
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      Container(
+                        width: 400,
+                        child: CarouselSlider(
+                          items: [
+                            BalanceCard(
+                              userData: accountController,
+                            ),
+                            ProfileCard(
+                              userData: accountController,
+                            ),
+                            TopMerchantsCard(
+                              userData: accountController,
+                              merchantData: merchantController,
+                            ),
+                          ],
+                          options: CarouselOptions(
+                              autoPlay: false,
+                              scrollDirection: Axis.horizontal,
+                              enlargeCenterPage: true,
+                              aspectRatio: 2.0,
+                              height: 300,
+                              onPageChanged: (index, reason) {}),
+                        ),
                       ),
-                    ),
-                    Divider(
-                      height: 50,
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        print('scan');
-                        scanButton(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        shape: CircleBorder(),
-                        padding: EdgeInsets.all(40),
+                      Divider(
+                        height: 50,
                       ),
-                      child: Text(
-                        "SCAN",
-                        style: TextStyle(fontSize: 30),
+                      ElevatedButton(
+                        onPressed: () {
+                          print('scan');
+                          scanButton(context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: CircleBorder(),
+                          padding: EdgeInsets.all(40),
+                        ),
+                        child: Text(
+                          "SCAN",
+                          style: TextStyle(fontSize: 30),
+                        ),
                       ),
-                    ),
-                    Divider()
-                  ],
-                ),
+                      Divider()
+                    ],
+                  ),
+          ),
         ),
       ),
     );

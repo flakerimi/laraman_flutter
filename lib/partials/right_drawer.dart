@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/settings/views/edit_account.dart';
+import 'package:laraman/modules/settings/views/edit_profile.dart';
 
 class RightDrawer extends StatelessWidget {
   final AccountController accountController = AccountController.to;
   @override
   Widget build(BuildContext context) {
     var isOpen = [false, false, false].obs;
+    var notifications = true.obs;
+    var darkTheme = false.obs;
     return Container(
       color: Colors.indigo,
       child: SafeArea(
@@ -61,9 +65,13 @@ class RightDrawer extends StatelessWidget {
                                   Icons.keyboard_arrow_right,
                                   color: Colors.white,
                                 )
-                              : Icon(
-                                  Icons.keyboard_arrow_down,
+                              : IconButton(
                                   color: Colors.white,
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 15,
+                                  ),
+                                  onPressed: () => Get.dialog(EditProfile()),
                                 ),
                           children: [
                             ListTile(
@@ -75,16 +83,6 @@ class RightDrawer extends StatelessWidget {
                               subtitle: Text(
                                   accountController.account.value.phoneNumber,
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.person,
@@ -97,16 +95,6 @@ class RightDrawer extends StatelessWidget {
                                       ' ' +
                                       accountController.account.value.lastName,
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.phone,
@@ -118,16 +106,6 @@ class RightDrawer extends StatelessWidget {
                                   accountController.account.value.email ??
                                       'No Email set',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                             ListTile(
                               isThreeLine: true,
@@ -143,16 +121,6 @@ class RightDrawer extends StatelessWidget {
                                       ', ' +
                                       accountController.account.value.country,
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                           ],
                           onExpansionChanged: (value) {
@@ -182,9 +150,13 @@ class RightDrawer extends StatelessWidget {
                                   Icons.keyboard_arrow_right,
                                   color: Colors.white,
                                 )
-                              : Icon(
-                                  Icons.keyboard_arrow_down,
+                              : IconButton(
                                   color: Colors.white,
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 15,
+                                  ),
+                                  onPressed: () => Get.dialog(EditAccount()),
                                 ),
                           children: [
                             ListTile(
@@ -195,16 +167,6 @@ class RightDrawer extends StatelessWidget {
                                       TextStyle(color: Colors.indigo.shade300)),
                               subtitle: Text('10 eur',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.language,
@@ -214,16 +176,6 @@ class RightDrawer extends StatelessWidget {
                                       TextStyle(color: Colors.indigo.shade300)),
                               subtitle: Text('English',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.access_time,
@@ -233,16 +185,6 @@ class RightDrawer extends StatelessWidget {
                                       TextStyle(color: Colors.indigo.shade300)),
                               subtitle: Text('GMT+1' ?? 'No Email set',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.phone,
@@ -252,16 +194,6 @@ class RightDrawer extends StatelessWidget {
                                       TextStyle(color: Colors.indigo.shade300)),
                               subtitle: Text('Personal',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                             ListTile(
                               leading: Icon(Icons.delete,
@@ -271,16 +203,6 @@ class RightDrawer extends StatelessWidget {
                                       TextStyle(color: Colors.indigo.shade300)),
                               subtitle: Text('Remove me',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
-                                },
-                              ),
                             ),
                           ],
                           onExpansionChanged: (value) {
@@ -310,9 +232,13 @@ class RightDrawer extends StatelessWidget {
                                   Icons.keyboard_arrow_right,
                                   color: Colors.white,
                                 )
-                              : Icon(
-                                  Icons.keyboard_arrow_down,
+                              : IconButton(
                                   color: Colors.white,
+                                  icon: Icon(
+                                    Icons.edit,
+                                    size: 15,
+                                  ),
+                                  onPressed: () => Get.dialog(EditAccount()),
                                 ),
                           children: [
                             ListTile(
@@ -323,14 +249,10 @@ class RightDrawer extends StatelessWidget {
                                       TextStyle(color: Colors.indigo.shade300)),
                               subtitle: Text('Enabled',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
+                              trailing: Switch(
+                                value: notifications.value,
+                                onChanged: (v) {
+                                  notifications.value = v;
                                 },
                               ),
                             ),
@@ -361,14 +283,10 @@ class RightDrawer extends StatelessWidget {
                                       TextStyle(color: Colors.indigo.shade300)),
                               subtitle: Text('Light theme',
                                   style: TextStyle(color: Colors.white)),
-                              trailing: IconButton(
-                                color: Colors.white,
-                                icon: Icon(
-                                  Icons.edit,
-                                  size: 15,
-                                ),
-                                onPressed: () {
-                                  print('object');
+                              trailing: Switch(
+                                value: darkTheme.value,
+                                onChanged: (v) {
+                                  darkTheme.value = v;
                                 },
                               ),
                             ),
@@ -389,6 +307,22 @@ class RightDrawer extends StatelessWidget {
                         Icons.keyboard_arrow_right,
                         color: Colors.white,
                       ),
+                      onTap: () {
+                        Get.dialog(
+                          Dialog(
+                            child: Column(
+                              children: [
+                                Text('You can invite up to 5 friends'),
+                                Text('Friend 1'),
+                                Text('Friend 2'),
+                                Text('Friend 3'),
+                                Text('Friend 4'),
+                                Text('Friend 5'),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                       title: Text(
                         'Invite a friend',
                         style: TextStyle(color: Colors.white, fontSize: 20),
