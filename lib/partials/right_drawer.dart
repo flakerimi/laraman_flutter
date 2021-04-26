@@ -3,6 +3,7 @@ import 'package:laraman/modules/account/controllers/account_controller.dart';
 import 'package:get/get.dart';
 import 'package:laraman/modules/settings/views/edit_account.dart';
 import 'package:laraman/modules/settings/views/edit_profile.dart';
+import 'package:laraman/modules/support/views/chat.dart';
 
 class RightDrawer extends StatelessWidget {
   final AccountController accountController = AccountController.to;
@@ -11,6 +12,7 @@ class RightDrawer extends StatelessWidget {
     var isOpen = [false, false, false].obs;
     var notifications = true.obs;
     var darkTheme = false.obs;
+    //print(accountController.account.value.toJson());
     return Container(
       color: Colors.indigo,
       child: SafeArea(
@@ -165,7 +167,10 @@ class RightDrawer extends StatelessWidget {
                               title: Text('Limit',
                                   style:
                                       TextStyle(color: Colors.indigo.shade300)),
-                              subtitle: Text('10 eur',
+                              subtitle: Text(
+                                  accountController.account.value.limit
+                                          .toString() +
+                                      '€',
                                   style: TextStyle(color: Colors.white)),
                             ),
                             ListTile(
@@ -174,7 +179,11 @@ class RightDrawer extends StatelessWidget {
                               title: Text('Language',
                                   style:
                                       TextStyle(color: Colors.indigo.shade300)),
-                              subtitle: Text('English',
+                              subtitle: Text(
+                                  accountController.account.value.language ==
+                                          'sq_XK'
+                                      ? 'Shqip'
+                                      : 'English',
                                   style: TextStyle(color: Colors.white)),
                             ),
                             ListTile(
@@ -183,7 +192,8 @@ class RightDrawer extends StatelessWidget {
                               title: Text('Timezone',
                                   style:
                                       TextStyle(color: Colors.indigo.shade300)),
-                              subtitle: Text('GMT+1' ?? 'No Email set',
+                              subtitle: Text(
+                                  accountController.account.value.timezone,
                                   style: TextStyle(color: Colors.white)),
                             ),
                             ListTile(
@@ -310,15 +320,32 @@ class RightDrawer extends StatelessWidget {
                       onTap: () {
                         Get.dialog(
                           Dialog(
-                            child: Column(
-                              children: [
-                                Text('You can invite up to 5 friends'),
-                                Text('Friend 1'),
-                                Text('Friend 2'),
-                                Text('Friend 3'),
-                                Text('Friend 4'),
-                                Text('Friend 5'),
-                              ],
+                            child: Container(
+                              height: 300,
+                              child: Padding(
+                                padding: const EdgeInsets.all(20.0),
+                                child: Column(
+                                  children: [
+                                    Text(
+                                      'You can invite up to 5 friends and earn 1€ from each friend when they register',
+                                      style: TextStyle(fontSize: 15),
+                                    ),
+                                    Spacer(),
+                                    TextField(
+                                      decoration: InputDecoration(
+                                          hintText: "Enter Friend number"),
+                                    ),
+                                    Spacer(),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Get.back();
+                                      },
+                                      child: Text('Send'),
+                                    ),
+                                    Spacer(),
+                                  ],
+                                ),
+                              ),
                             ),
                           ),
                         );
@@ -334,6 +361,7 @@ class RightDrawer extends StatelessWidget {
                           style: TextStyle(color: Colors.white, fontSize: 20)),
                       subtitle: Text('Chat with us',
                           style: TextStyle(color: Colors.white)),
+                      onTap: () => Get.to(() => Chat()),
                       trailing: Icon(
                         Icons.keyboard_arrow_right,
                         color: Colors.white,

@@ -6,6 +6,7 @@ import 'config/routes.dart';
 import 'config/theme.dart';
 import 'modules/announcement/controller/announcement_controller.dart';
 import 'modules/account/controllers/account_controller.dart';
+import 'modules/bills/controllers/bill_controller.dart';
 import 'modules/merchant/controller/merchant_controller.dart';
 import 'modules/payment/controllers/payment_controller.dart';
 
@@ -16,6 +17,7 @@ void main() async {
   Get.put<AnnouncementController>(AnnouncementController());
   Get.put<MerchantController>(MerchantController());
   Get.put<PaymentController>(PaymentController());
+  Get.put<BillController>(BillController());
   runApp(Laraman());
 }
 

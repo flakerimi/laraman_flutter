@@ -29,6 +29,7 @@ class MerchantService {
   }
 
   Future<List<MerchantPackages>> getMerchantPackages(String merchantId) async {
+    print(merchantId);
     QuerySnapshot qShot = await _db
         .collection('merchants')
         .doc(merchantId)

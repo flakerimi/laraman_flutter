@@ -31,8 +31,7 @@ class PackageListTile extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
+                    fontWeight: FontWeight.bold, color: Colors.white),
               ),
               const Padding(padding: EdgeInsets.only(bottom: 2.0)),
               Text(
@@ -41,7 +40,7 @@ class PackageListTile extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: const TextStyle(
                   fontSize: 12.0,
-                  color: Colors.black54,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -51,20 +50,21 @@ class PackageListTile extends StatelessWidget {
           flex: 1,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text(
-                '$price',
+                '$price€',
                 style: const TextStyle(
-                  fontSize: 12.0,
-                  color: Colors.black87,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
               ),
               Text(
-                '$durationTime - $durationString',
+                '$durationString',
                 style: const TextStyle(
                   fontSize: 12.0,
-                  color: Colors.black54,
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -98,7 +98,7 @@ class PackageList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.redAccent.shade200,
+      color: Colors.red,
       child: Padding(
         padding: const EdgeInsets.all(10.0),
         child: SizedBox(
@@ -121,6 +121,7 @@ class PackageList extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: pressed,
+                style: ElevatedButton.styleFrom(primary: Colors.green),
                 child: Text(
                   'Abonohu',
                   style: TextStyle(color: Colors.white),

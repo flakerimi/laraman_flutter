@@ -54,6 +54,7 @@ class ListAvaiableMerchants extends StatelessWidget {
                                 size: 30,
                               ),
                               onTap: () {
+                                print(doc.toJson());
                                 Get.to(() => SubscriptionAddView(),
                                     arguments: doc);
                               }),

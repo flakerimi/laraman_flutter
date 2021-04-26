@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:laraman/modules/bills/views/bills.dart';
 import 'package:laraman/modules/friendship/views/index.dart';
 import 'package:laraman/modules/payment/views/user_payments.dart';
 import 'package:laraman/modules/subscription/views/index.dart';
@@ -95,7 +96,7 @@ class LeftDrawer extends StatelessWidget {
                       transition: Transition.rightToLeft),
                 ),
               ),
-              /* Container(
+              Container(
                 padding: EdgeInsets.all(10),
                 margin: EdgeInsets.only(top: 10),
                 decoration: BoxDecoration(
@@ -125,11 +126,11 @@ class LeftDrawer extends StatelessWidget {
                   ),
                   onTap: () {
                     Get.to(
-                      () => {SubscriptionIndex()},
+                      () => BillIndex(),
                     );
                   },
                 ),
-              ), */
+              ),
               Container(
                 padding: EdgeInsets.all(10),
                 margin: EdgeInsets.only(top: 10),

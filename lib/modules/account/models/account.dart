@@ -15,8 +15,16 @@ class Account {
   final String qr;
   final String qrSvg;
   final String status;
+  final String language;
+  final int limit;
+  final String timezone;
+  final String accountType;
 
   Account({
+    this.language,
+    this.limit,
+    this.timezone,
+    this.accountType,
     this.uid,
     this.address,
     this.balance,
@@ -34,6 +42,10 @@ class Account {
   });
   factory Account.fromMap(Map data) {
     return Account(
+      language: data['language'],
+      limit: int.parse(data['limit']),
+      timezone: data['timeZone'],
+      accountType: data['accountType'],
       uid: data['uid'],
       address: data['address'],
       balance: data['balance'] == null ? 0.0 : data['balance'].toDouble(),
@@ -52,6 +64,10 @@ class Account {
   }
   factory Account.fromDocumentSnapshot(DocumentSnapshot data) {
     return Account(
+      language: data['language'],
+      limit: int.parse(data['limit']),
+      timezone: data['timeZone'],
+      accountType: data['accountType'],
       uid: data['uid'],
       address: data['address'],
       balance: data['balance'] == null ? 0.0 : data['balance'].toDouble(),
@@ -70,6 +86,10 @@ class Account {
   }
 
   Map<String, dynamic> toJson() => {
+        "language": language,
+        "limit": limit,
+        "timezone": timezone,
+        "accountType": accountType,
         "uid": uid,
         "address": address,
         "balance": balance == null ? 0.0 : balance.toDouble(),
